@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design Concepts Naming Generator</title>
+<style>
+  body{
+    margin:0;
+    font-family:Calibri, Arial, sans-serif;
+    background:#f4f4f2;
+    color:#111;
+  }
+  .wrap{
+    max-width:1040px;
+    margin:0 auto;
+    padding:56px 24px 80px;
+  }
+  .eyebrow{
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-size:13px;
+    color:#666;
+    margin-bottom:10px;
+  }
+  h1{
+    margin:0 0 14px;
+    font-size:52px;
+    line-height:1;
+  }
+  .intro{
+    max-width:800px;
+    font-size:19px;
+    line-height:1.5;
+    color:#333;
+    margin-bottom:28px;
+  }
+  .panel{
+    background:#fff;
+    border:1px solid #d6d6d2;
+    padding:22px;
+    margin-bottom:20px;
+  }
+  h2{
+    margin:0 0 8px;
+    font-size:24px;
+  }
+  .hint{
+    color:#666;
+    font-size:14px;
+    line-height:1.4;
+    margin-bottom:12px;
+  }
+  input[type="text"], textarea{
+    width:100%;
+    padding:14px;
+    border:1px solid #bfbfbb;
+    font:16px Calibri, Arial, sans-serif;
+    line-height:1.45;
+  }
+  textarea{
+    min-height:260px;
+    resize:vertical;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  @media (max-width:760px){
+    .grid{grid-template-columns:1fr;}
+  }
+  .actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin:24px 0;
+  }
+  button{
+    border:0;
+    background:#111;
+    color:#fff;
+    font:700 17px Calibri, Arial, sans-serif;
+    padding:14px 18px;
+    cursor:pointer;
+  }
+  button.secondary{
+    background:#e5e5e2;
+    color:#111;
+  }
+  .business-display{
+    margin:10px 0 18px;
+    font-size:18px;
+    color:#444;
+  }
+  .results{
+    display:grid;
+    gap:10px;
+  }
+  .result{
+    background:#fff;
+    border:1px solid #d6d6d2;
+    padding:16px 18px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .result label{
+    font-size:24px;
+    font-weight:700;
+    cursor:pointer;
+    flex:1;
+  }
+  .favorites{
+    margin-top:28px;
+    background:#fff;
+    border:1px solid #d6d6d2;
+    padding:22px;
+  }
+  .favorites ul{
+    margin:12px 0 0 20px;
+    padding:0;
+  }
+  .favorites li{
+    margin:7px 0;
+    font-size:18px;
+  }
+  .status{
+    margin-top:12px;
+    color:#666;
+    font-size:14px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Design Concepts</div>
+  <h1>Naming Generator</h1>
+
+  <p class="intro">
+    Paste in your class word lists, enter the type of business or organization you are naming,
+    and generate unexpected combinations. Do not worry about whether the words immediately
+    describe the business. Look for combinations that feel memorable, intriguing, or slightly unresolved.
+  </p>
+
+  <div class="panel">
+    <h2>Business or Organization Type</h2>
+    <div class="hint">What type of business are you naming? Example: Tattoo Studio, Independent Bookshop, Podcast Studio.</div>
+    <input type="text" id="businessType" placeholder="Enter the business or organization type">
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Adjectives</h2>
+      <div class="hint">Paste the class adjective list here, one word per line.</div>
+      <textarea id="adjectives" placeholder="feral&#10;hollow&#10;obsidian&#10;ashen&#10;restless"></textarea>
+    </div>
+
+    <div class="panel">
+      <h2>Nouns</h2>
+      <div class="hint">Paste the class noun list here, one word per line.</div>
+      <textarea id="nouns" placeholder="archive&#10;needle&#10;meridian&#10;harbor&#10;spine"></textarea>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button onclick="generateNames()">Generate 12 Names</button>
+    <button class="secondary" onclick="saveSelected()">Save Selected</button>
+    <button class="secondary" onclick="resetEverything()">Reset Everything</button>
+  </div>
+
+  <div id="businessDisplay" class="business-display"></div>
+  <div id="results" class="results"></div>
+
+  <div class="favorites">
+    <h2>Saved Favorites</h2>
+    <div class="hint">Select the names that feel strongest. Aim to narrow to three finalists.</div>
+    <ul id="favoriteList"></ul>
+  </div>
+
+  <div class="status" id="status"></div>
+</div>
+
+<script>
+function cleanList(id){
+  return document.getElementById(id).value
+    .split(/\n|,/)
+    .map(x => x.trim())
+    .filter(Boolean);
+}
+
+function pick(arr){
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function titleCase(s){
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function generateNames(){
+  const adjectives = cleanList("adjectives");
+  const nouns = cleanList("nouns");
+  const businessType = document.getElementById("businessType").value.trim();
+  const status = document.getElementById("status");
+  const results = document.getElementById("results");
+
+  if(adjectives.length < 3 || nouns.length < 3){
+    status.textContent = "Please paste in at least 3 adjectives and 3 nouns before generating names.";
+    return;
+  }
+
+  results.innerHTML = "";
+  const names = new Set();
+  let attempts = 0;
+
+  while(names.size < 12 && attempts < 500){
+    names.add(titleCase(pick(adjectives)) + " " + titleCase(pick(nouns)));
+    attempts++;
+  }
+
+  [...names].forEach((name, index) => {
+    const row = document.createElement("div");
+    row.className = "result";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = "name" + index;
+    checkbox.value = name;
+
+    const label = document.createElement("label");
+    label.htmlFor = checkbox.id;
+    label.textContent = name;
+
+    row.appendChild(checkbox);
+    row.appendChild(label);
+    results.appendChild(row);
+  });
+
+  document.getElementById("businessDisplay").textContent =
+    businessType ? "Business Type: " + businessType : "";
+
+  status.textContent = "";
+}
+
+function saveSelected(){
+  const selected = [...document.querySelectorAll('#results input[type="checkbox"]:checked')];
+  const favoriteList = document.getElementById("favoriteList");
+  const existing = [...favoriteList.querySelectorAll("li")].map(li => li.textContent);
+
+  selected.forEach(box => {
+    if(!existing.includes(box.value)){
+      const li = document.createElement("li");
+      li.textContent = box.value;
+      favoriteList.appendChild(li);
+      existing.push(box.value);
+    }
+  });
+}
+
+function resetEverything(){
+  document.getElementById("businessType").value = "";
+  document.getElementById("adjectives").value = "";
+  document.getElementById("nouns").value = "";
+  document.getElementById("results").innerHTML = "";
+  document.getElementById("favoriteList").innerHTML = "";
+  document.getElementById("businessDisplay").textContent = "";
+  document.getElementById("status").textContent = "";
+}
+</script>
+</body>
+</html>
