@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Concepts Word Map + Matrix</title>
+<style>
+:root{
+  --bg:#f6f6f3;--paper:#ffffff;--ink:#151515;--muted:#6d6d67;
+  --line:#d8d8d2;--soft:#efefe9;--dark:#171717;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Helvetica Neue",Arial,sans-serif}
+.shell{max-width:1180px;margin:0 auto;padding:60px 26px 90px}
+header{
+  display:flex;justify-content:space-between;gap:38px;align-items:flex-end;
+  border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:30px
+}
+.kicker{text-transform:uppercase;letter-spacing:.15em;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:11px}
+h1{margin:0;font-size:clamp(42px,6vw,72px);line-height:.95;letter-spacing:-.045em}
+.intro{max-width:530px;margin:0;color:#444;font-size:17px;line-height:1.55}
+.section{background:var(--paper);border:1px solid var(--line);margin-bottom:22px}
+.section-head{
+  padding:20px 22px 15px;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;gap:20px;align-items:flex-start
+}
+.section-title{margin:0;font-size:19px}
+.section-note{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
+.section-body{padding:22px}
+.definition,.concept-box{
+  background:var(--soft);padding:18px 19px;margin-bottom:22px;border-left:3px solid #222;
+  color:#333;font-size:14px;line-height:1.55
+}
+.definition strong,.concept-box strong{color:#111}
+.example-list{margin:10px 0 0 18px;padding:0}
+.example-list li{margin:4px 0}
+input,textarea{
+  width:100%;border:1px solid #bdbdb7;padding:12px 13px;background:#fff;color:#111;
+  font:15px/1.45 Inter,"Helvetica Neue",Arial,sans-serif;outline:none
+}
+textarea{min-height:155px;resize:vertical;margin-top:8px}
+input:focus,textarea:focus{border-color:#333}
+button{
+  border:1px solid var(--dark);background:var(--dark);color:#fff;padding:12px 16px;
+  font:700 14px Inter,"Helvetica Neue",Arial,sans-serif;cursor:pointer
+}
+button.secondary{background:#fff;color:#151515;border-color:#bdbdb7}
+button:hover{opacity:.86}
+.center-box{max-width:460px;margin:0 auto 24px}
+.center-label{
+  font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
+  font-weight:700;margin-bottom:7px
+}
+.map-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.category{border:1px solid var(--line);background:#fff;padding:14px;position:relative}
+.category-top{display:flex;gap:8px}
+.category-name{font-weight:700}
+.remove{
+  flex:0 0 35px;width:35px;height:35px;padding:0;background:#fff;color:#444;
+  border:1px solid var(--line);font-size:18px
+}
+.word-count{margin-top:6px;color:var(--muted);font-size:11px}
+.category-actions{margin-top:14px}
+.map-actions,.matrix-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+
+.matrix-wrap{overflow-x:auto}
+.matrix-table{width:100%;border-collapse:collapse;min-width:760px}
+.matrix-table th,.matrix-table td{border:1px solid var(--line);padding:10px;vertical-align:top}
+.matrix-table th{background:#f0f0ec;font-size:13px;text-align:left}
+.matrix-table td{background:#fff;min-width:170px}
+.combo-title{font-weight:700;line-height:1.25;margin-bottom:8px}
+.combo-source{font-size:11px;color:var(--muted);margin-bottom:8px}
+.concept-input{min-height:88px;margin:0 0 8px;font-size:13px}
+.save-btn{width:100%;background:#fff;color:#151515;border:1px solid var(--line)}
+.save-btn.saved{background:#171717;color:#fff;border-color:#171717}
+
+.saved-area{margin-top:24px;border-top:1px solid var(--line);padding-top:20px}
+.saved-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.saved-item{background:var(--soft);border:1px solid var(--line);padding:14px}
+.saved-name{font-weight:700;font-size:16px}
+.saved-source{font-size:11px;color:var(--muted);margin-top:4px}
+.saved-concept{margin-top:10px;font-size:14px;line-height:1.45}
+.saved-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.empty{color:var(--muted);font-size:13px}
+.status{min-height:18px;margin-top:10px;color:#7a2d2d;font-size:13px}
+footer{
+  margin-top:36px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);
+  font-size:12px;display:flex;justify-content:space-between;gap:20px
+}
+@media(max-width:850px){
+  header{display:block}.intro{margin-top:22px}
+  .map-grid,.saved-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:570px){
+  .shell{padding:36px 16px 60px}
+  .map-grid,.saved-grid{grid-template-columns:1fr}
+  .section-head{display:block}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header>
+  <div>
+    <div class="kicker">Design Concepts Toolkit</div>
+    <h1>Word Map<br>to Matrix</h1>
+  </div>
+  <p class="intro">
+    Expand one subject into many possible directions, then combine ideas from different categories
+    to discover visual associations that can become conceptual logo sketches.
+  </p>
+</header>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">1. Build Your Word Map</h2>
+      <p class="section-note">Start with one central subject, then explore it through several different categories.</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="definition">
+      <strong>What is a word map?</strong><br>
+      A word map helps you move beyond the first, most obvious ideas. Place your main subject in the center,
+      then create categories that help you look at that subject from different directions. Under each category,
+      add specific words that could eventually become something visual or symbolic.
+      <ul class="example-list">
+        <li><strong>Things you can see:</strong> objects, tools, shapes, places, materials, animals, structures, natural forms</li>
+        <li><strong>Actions or movement:</strong> pull, split, grow, connect, drift, stack, fold, circle</li>
+        <li><strong>Feelings or qualities:</strong> trust, tension, calm, energy, mystery, protection — especially ideas that could be expressed symbolically</li>
+        <li><strong>Associations:</strong> words, metaphors, memories, rituals, environments, or ideas connected to the subject</li>
+      </ul>
+      The goal is to collect visual associations that can later be combined into concepts. You are not designing the logo yet.
+    </div>
+
+    <div class="center-box">
+      <div class="center-label">Central Subject</div>
+      <input id="centralSubject" placeholder="Example: business type, organization, theme, or idea">
+    </div>
+
+    <div id="mapGrid" class="map-grid"></div>
+
+    <div class="category-actions">
+      <button class="secondary" onclick="addCategory()">+ Add Category</button>
+    </div>
+
+    <div class="map-actions">
+      <button onclick="buildMatrix()">Build the Matrix</button>
+      <button class="secondary" onclick="resetEverything()">Reset Everything</button>
+    </div>
+
+    <div id="mapStatus" class="status"></div>
+  </div>
+</section>
+
+<section class="section" id="matrixSection">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">2. Explore the Word Matrix</h2>
+      <p class="section-note">Combine two ideas to discover a third meaning that could become a logo concept.</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="concept-box">
+      <strong>Think like a logo designer.</strong><br>
+      The goal is not simply to draw two things next to each other. Look for a way to combine two ordinary ideas
+      into one new symbol. Ask yourself:
+      <ul class="example-list">
+        <li>Could these two ideas become one visual?</li>
+        <li>What new meaning would appear if they were combined?</li>
+        <li>Could one idea become the shape, negative space, texture, movement, or structure of the other?</li>
+        <li>Would the result communicate something about the business without illustrating it literally?</li>
+      </ul>
+      <strong>Two ideas + one visual relationship = a third meaning.</strong>
+    </div>
+
+    <div id="matrixArea" class="matrix-wrap">
+      <div class="empty">Build your word map above, then click <strong>Build the Matrix</strong>.</div>
+    </div>
+
+    <div class="matrix-actions">
+      <button onclick="shuffleMatrix()">Shuffle Matrix</button>
+      <button class="secondary" onclick="clearSaved()">Clear Saved Concepts</button>
+    </div>
+
+    <div class="saved-area">
+      <h3 class="section-title">Saved Concept Directions</h3>
+      <p class="section-note">Save combinations only after you can describe the third idea they might become.</p>
+      <div id="savedGrid" class="saved-grid">
+        <div class="empty">No concept directions saved yet.</div>
+      </div>
+    </div>
+
+    <div id="matrixStatus" class="status"></div>
+  </div>
+</section>
+
+<footer>
+  <span>Design Concepts Toolkit</span>
+  <span>Runs entirely in your browser. No student data is collected.</span>
+</footer>
+
+</div>
+
+<script>
+let saved = new Map();
+let currentCategories = [];
+
+function parseWords(text){
+  return text.split(/\n|,/).map(x => x.trim()).filter(Boolean);
+}
+
+function titleCase(text){
+  return text.replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function addCategory(name="", words=""){
+  const grid = document.getElementById("mapGrid");
+  const card = document.createElement("div");
+  card.className = "category";
+
+  const top = document.createElement("div");
+  top.className = "category-top";
+
+  const input = document.createElement("input");
+  input.className = "category-name";
+  input.placeholder = "Category name";
+  input.value = name;
+
+  const remove = document.createElement("button");
+  remove.className = "remove";
+  remove.textContent = "×";
+  remove.title = "Remove category";
+  remove.onclick = () => {
+    if(document.querySelectorAll(".category").length <= 2){
+      document.getElementById("mapStatus").textContent = "Keep at least two categories in the word map.";
+      return;
+    }
+    card.remove();
+  };
+
+  const textarea = document.createElement("textarea");
+  textarea.placeholder = "Add one word per line";
+  textarea.value = words;
+
+  const count = document.createElement("div");
+  count.className = "word-count";
+
+  function updateCount(){
+    const total = parseWords(textarea.value).length;
+    count.textContent = total + (total === 1 ? " word" : " words");
+  }
+
+  textarea.addEventListener("input", updateCount);
+  updateCount();
+
+  top.appendChild(input);
+  top.appendChild(remove);
+  card.appendChild(top);
+  card.appendChild(textarea);
+  card.appendChild(count);
+  grid.appendChild(card);
+}
+
+function getCategories(){
+  return [...document.querySelectorAll(".category")].map((category, i) => ({
+    name: category.querySelector(".category-name").value.trim() || "Category " + (i+1),
+    words: parseWords(category.querySelector("textarea").value)
+  })).filter(cat => cat.words.length);
+}
+
+function buildMatrix(){
+  currentCategories = getCategories();
+  document.getElementById("mapStatus").textContent = "";
+
+  if(currentCategories.length < 2){
+    document.getElementById("mapStatus").textContent =
+      "Add words to at least two categories before building the matrix.";
+    return;
+  }
+
+  renderMatrix();
+  document.getElementById("matrixSection").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function pick(arr){
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function renderMatrix(){
+  const area = document.getElementById("matrixArea");
+  area.innerHTML = "";
+  document.getElementById("matrixStatus").textContent = "";
+
+  if(currentCategories.length < 2){
+    area.innerHTML = '<div class="empty">Build your word map above first.</div>';
+    return;
+  }
+
+  const table = document.createElement("table");
+  table.className = "matrix-table";
+
+  const thead = document.createElement("thead");
+  const headRow = document.createElement("tr");
+
+  const corner = document.createElement("th");
+  corner.textContent = "Word Matrix";
+  headRow.appendChild(corner);
+
+  currentCategories.slice(1).forEach(cat => {
+    const th = document.createElement("th");
+    th.textContent = cat.name;
+    headRow.appendChild(th);
+  });
+
+  thead.appendChild(headRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+  const first = currentCategories[0];
+  const rowWords = shuffle([...first.words]).slice(0,8);
+
+  rowWords.forEach(rowWord => {
+    const tr = document.createElement("tr");
+
+    const rowHead = document.createElement("th");
+    rowHead.textContent = titleCase(rowWord);
+    tr.appendChild(rowHead);
+
+    currentCategories.slice(1).forEach(cat => {
+      const td = document.createElement("td");
+      const colWord = pick(cat.words);
+
+      const item = {
+        combo: titleCase(rowWord) + " + " + titleCase(colWord),
+        source: first.name + " × " + cat.name
+      };
+
+      const comboTitle = document.createElement("div");
+      comboTitle.className = "combo-title";
+      comboTitle.textContent = item.combo;
+
+      const source = document.createElement("div");
+      source.className = "combo-source";
+      source.textContent = item.source;
+
+      const concept = document.createElement("textarea");
+      concept.className = "concept-input";
+      concept.placeholder = "Possible concept: What third idea could these become visually?";
+
+      const key = item.combo + "||" + item.source;
+      if(saved.has(key)){
+        concept.value = saved.get(key).concept || "";
+      }
+
+      const saveBtn = document.createElement("button");
+      saveBtn.className = "save-btn" + (saved.has(key) ? " saved" : "");
+      saveBtn.textContent = saved.has(key) ? "Saved" : "Save Concept";
+
+      saveBtn.onclick = () => {
+        const conceptText = concept.value.trim();
+
+        if(!conceptText){
+          document.getElementById("matrixStatus").textContent =
+            "Write the possible third idea before saving this concept direction.";
+          concept.focus();
+          return;
+        }
+
+        document.getElementById("matrixStatus").textContent = "";
+
+        if(saved.has(key)){
+          saved.delete(key);
+          saveBtn.classList.remove("saved");
+          saveBtn.textContent = "Save Concept";
+        } else {
+          saved.set(key,{
+            combo:item.combo,
+            source:item.source,
+            concept:conceptText
+          });
+          saveBtn.classList.add("saved");
+          saveBtn.textContent = "Saved";
+        }
+
+        renderSaved();
+      };
+
+      td.appendChild(comboTitle);
+      td.appendChild(source);
+      td.appendChild(concept);
+      td.appendChild(saveBtn);
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  area.appendChild(table);
+}
+
+function shuffleMatrix(){
+  if(currentCategories.length < 2){
+    document.getElementById("matrixStatus").textContent = "Build the matrix first.";
+    return;
+  }
+  renderMatrix();
+}
+
+function renderSaved(){
+  const grid = document.getElementById("savedGrid");
+  grid.innerHTML = "";
+
+  if(saved.size === 0){
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "No concept directions saved yet.";
+    grid.appendChild(empty);
+    return;
+  }
+
+  saved.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "saved-item";
+
+    const name = document.createElement("div");
+    name.className = "saved-name";
+    name.textContent = item.combo;
+
+    const source = document.createElement("div");
+    source.className = "saved-source";
+    source.textContent = item.source;
+
+    const label = document.createElement("div");
+    label.className = "saved-label";
+    label.textContent = "Possible Third Idea";
+
+    const concept = document.createElement("div");
+    concept.className = "saved-concept";
+    concept.textContent = item.concept;
+
+    div.appendChild(name);
+    div.appendChild(source);
+    div.appendChild(label);
+    div.appendChild(concept);
+    grid.appendChild(div);
+  });
+}
+
+function clearSaved(){
+  saved.clear();
+  renderSaved();
+  renderMatrix();
+}
+
+function resetEverything(){
+  document.getElementById("centralSubject").value = "";
+  document.getElementById("mapGrid").innerHTML = "";
+  document.getElementById("mapStatus").textContent = "";
+  document.getElementById("matrixStatus").textContent = "";
+  document.getElementById("matrixArea").innerHTML =
+    '<div class="empty">Build your word map above, then click <strong>Build the Matrix</strong>.</div>';
+
+  currentCategories = [];
+  saved.clear();
+  renderSaved();
+
+  addCategory();
+  addCategory();
+  addCategory();
+}
+
+addCategory();
+addCategory();
+addCategory();
+renderSaved();
+</script>
+</body>
+</html>
