@@ -1,491 +1,1075 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Design Concepts Word Map + Matrix</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Design Concepts — Word Map to Concept</title>
 <style>
 :root{
-  --bg:#f6f6f3;--paper:#ffffff;--ink:#151515;--muted:#6d6d67;
-  --line:#d8d8d2;--soft:#efefe9;--dark:#171717;
+  --bg:#f3f3ef;
+  --paper:#ffffff;
+  --ink:#101010;
+  --muted:#6f6f68;
+  --line:#d8d8d1;
+  --soft:#ecece6;
+  --cyan:#18b9cc;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Helvetica Neue",Arial,sans-serif}
-.shell{max-width:1180px;margin:0 auto;padding:60px 26px 90px}
-header{
-  display:flex;justify-content:space-between;gap:38px;align-items:flex-end;
-  border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:30px
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Arial,Helvetica,sans-serif;
 }
-.kicker{text-transform:uppercase;letter-spacing:.15em;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:11px}
-h1{margin:0;font-size:clamp(42px,6vw,72px);line-height:.95;letter-spacing:-.045em}
-.intro{max-width:530px;margin:0;color:#444;font-size:17px;line-height:1.55}
-.section{background:var(--paper);border:1px solid var(--line);margin-bottom:22px}
-.section-head{
-  padding:20px 22px 15px;border-bottom:1px solid var(--line);
-  display:flex;justify-content:space-between;gap:20px;align-items:flex-start
+.wrap{
+  max-width:1180px;
+  margin:0 auto;
+  padding:48px 28px 96px;
 }
-.section-title{margin:0;font-size:19px}
-.section-note{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
-.section-body{padding:22px}
-.definition,.concept-box{
-  background:var(--soft);padding:18px 19px;margin-bottom:22px;border-left:3px solid #222;
-  color:#333;font-size:14px;line-height:1.55
+.masthead{
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:48px;
+  align-items:end;
+  padding-bottom:28px;
+  border-bottom:1px solid var(--line);
 }
-.definition strong,.concept-box strong{color:#111}
-.example-list{margin:10px 0 0 18px;padding:0}
-.example-list li{margin:4px 0}
+.kicker{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  color:var(--muted);
+  font-weight:700;
+  margin-bottom:14px;
+}
+h1{
+  margin:0;
+  font-size:clamp(46px,7vw,82px);
+  line-height:.88;
+  letter-spacing:-.055em;
+  font-weight:700;
+}
+.intro{
+  margin:0;
+  color:#44443f;
+  font-size:17px;
+  line-height:1.55;
+  max-width:500px;
+}
+.progress{
+  display:flex;
+  gap:8px;
+  margin:26px 0 0;
+  flex-wrap:wrap;
+}
+.progress a{
+  text-decoration:none;
+  color:#111;
+  border:1px solid var(--line);
+  background:#fff;
+  padding:8px 11px;
+  font-size:12px;
+  font-weight:700;
+}
+.section{
+  margin-top:54px;
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:28px;
+  align-items:start;
+}
+.step{
+  position:sticky;
+  top:18px;
+}
+.stepnum{
+  font-size:56px;
+  line-height:1;
+  letter-spacing:-.05em;
+  font-weight:700;
+}
+.steplabel{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-weight:700;
+}
+.content{min-width:0}
+.section-title{
+  margin:0 0 8px;
+  font-size:26px;
+  line-height:1.08;
+  letter-spacing:-.03em;
+}
+.section-deck{
+  margin:0 0 18px;
+  color:#55554f;
+  font-size:15px;
+  line-height:1.5;
+  max-width:760px;
+}
+.note{
+  background:#fff;
+  border-left:4px solid #111;
+  padding:16px 18px;
+  color:#3e3e39;
+  font-size:14px;
+  line-height:1.55;
+  margin-bottom:18px;
+}
+.field-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+label,.mini-label{
+  display:block;
+  margin:0 0 6px;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+}
 input,textarea{
-  width:100%;border:1px solid #bdbdb7;padding:12px 13px;background:#fff;color:#111;
-  font:15px/1.45 Inter,"Helvetica Neue",Arial,sans-serif;outline:none
+  width:100%;
+  border:1px solid #bebeb7;
+  background:#fff;
+  color:#111;
+  padding:12px 13px;
+  font:15px/1.45 Arial,Helvetica,sans-serif;
+  outline:none;
 }
-textarea{min-height:155px;resize:vertical;margin-top:8px}
-input:focus,textarea:focus{border-color:#333}
-button{
-  border:1px solid var(--dark);background:var(--dark);color:#fff;padding:12px 16px;
-  font:700 14px Inter,"Helvetica Neue",Arial,sans-serif;cursor:pointer
+input:focus,textarea:focus{
+  border-color:#111;
+  box-shadow:0 0 0 1px #111 inset;
 }
-button.secondary{background:#fff;color:#151515;border-color:#bdbdb7}
-button:hover{opacity:.86}
-.center-box{max-width:460px;margin:0 auto 24px}
-.center-label{
-  font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
-  font-weight:700;margin-bottom:7px
+textarea{
+  resize:vertical;
+  min-height:124px;
 }
-.map-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.category{border:1px solid var(--line);background:#fff;padding:14px;position:relative}
-.category-top{display:flex;gap:8px}
-.category-name{font-weight:700}
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:10px;
+}
+.chip{
+  background:#111;
+  color:#fff;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+}
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+.category{
+  background:#fff;
+  border-top:4px solid #111;
+  padding:16px;
+}
+.category-head{
+  display:flex;
+  gap:8px;
+}
+.category-head input{
+  border:0;
+  border-bottom:1px solid var(--line);
+  padding:6px 0 8px;
+  font-size:18px;
+  font-weight:700;
+}
+.category-help{
+  min-height:0;
+  margin:10px 0 12px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+}
 .remove{
-  flex:0 0 35px;width:35px;height:35px;padding:0;background:#fff;color:#444;
-  border:1px solid var(--line);font-size:18px
+  width:36px;
+  height:36px;
+  padding:0;
+  flex:0 0 36px;
 }
-.word-count{margin-top:6px;color:var(--muted);font-size:11px}
-.category-actions{margin-top:14px}
-.map-actions,.matrix-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:16px;
+}
+button{
+  appearance:none;
+  border:0;
+  background:#111;
+  color:#fff;
+  padding:11px 15px;
+  font:700 13px Arial,Helvetica,sans-serif;
+  cursor:pointer;
+}
+button:hover{opacity:.86}
+button.secondary{
+  background:#e8e8e2;
+  color:#111;
+}
+button.ghost{
+  background:#fff;
+  color:#111;
+  border:1px solid #c9c9c2;
+}
+button.cyan{
+  background:var(--cyan);
+  color:#091113;
+}
+.autosave{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:11px;
+}
+.explorer{
+  background:#fff;
+  border-top:6px solid #111;
+  padding:26px;
+  margin-top:18px;
+}
+.business-context{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.11em;
+  font-weight:700;
+  color:#777;
+  margin-bottom:5px;
+}
+.pair-meta{
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:10px;
+}
+.pair{
+  font-size:clamp(38px,6vw,70px);
+  line-height:.9;
+  letter-spacing:-.055em;
+  font-weight:700;
+  margin:0 0 18px;
+}
+.whatif{
+  font-size:19px;
+  line-height:1.45;
+  color:#333;
+  max-width:760px;
+  margin-bottom:20px;
+}
+.relationship-prompt{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:8px 0 12px;
+}
+.relationship-prompt button{
+  background:#f0f0eb;
+  color:#111;
+  border:1px solid var(--line);
+  padding:7px 9px;
+  font-size:11px;
+}
+.relationship-prompt button.sel{
+  background:#111;
+  color:#fff;
+  border-color:#111;
+}
+.idea-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:8px 0 14px;
+}
+.idea{
+  background:#f0f0eb;
+  color:#111;
+  border:1px solid var(--line);
+  padding:7px 9px;
+  font-size:11px;
+}
+.idea.sel{
+  background:#111;
+  color:#fff;
+}
+.reject{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:12px;
+  margin-top:14px;
+  border:1px solid var(--line);
+  background:#f7f7f3;
+}
+.reject input{width:auto}
+.saved-head{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:20px;
+  margin-top:30px;
+}
+.saved-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:12px;
+}
+.saved-card{
+  background:#fff;
+  border:1px solid var(--line);
+  padding:16px;
+  cursor:pointer;
+}
+.saved-card.surprise{
+  border:3px solid #111;
+  padding:14px;
+}
+.saved-pair{
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:-.02em;
+}
+.saved-meta{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px;
+}
+.saved-label{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  font-weight:700;
+}
+.saved-text{
+  margin-top:3px;
+  font-size:14px;
+  line-height:1.45;
+}
+.status{
+  min-height:18px;
+  margin-top:9px;
+  color:#8a2f2f;
+  font-size:13px;
+}
+.footer{
+  margin-top:70px;
+  border-top:1px solid var(--line);
+  padding-top:16px;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  color:var(--muted);
+  font-size:11px;
+}
+.footer-credit{
+  font-size:10px;
+  color:#8a8a84;
+  line-height:1.4;
+  margin-top:2px;
+}
+.print-only{display:none}
 
-.matrix-wrap{overflow-x:auto}
-.matrix-table{width:100%;border-collapse:collapse;min-width:760px}
-.matrix-table th,.matrix-table td{border:1px solid var(--line);padding:10px;vertical-align:top}
-.matrix-table th{background:#f0f0ec;font-size:13px;text-align:left}
-.matrix-table td{background:#fff;min-width:170px}
-.combo-title{font-weight:700;line-height:1.25;margin-bottom:8px}
-.combo-source{font-size:11px;color:var(--muted);margin-bottom:8px}
-.concept-input{min-height:88px;margin:0 0 8px;font-size:13px}
-.save-btn{width:100%;background:#fff;color:#151515;border:1px solid var(--line)}
-.save-btn.saved{background:#171717;color:#fff;border-color:#171717}
-
-.saved-area{margin-top:24px;border-top:1px solid var(--line);padding-top:20px}
-.saved-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
-.saved-item{background:var(--soft);border:1px solid var(--line);padding:14px}
-.saved-name{font-weight:700;font-size:16px}
-.saved-source{font-size:11px;color:var(--muted);margin-top:4px}
-.saved-concept{margin-top:10px;font-size:14px;line-height:1.45}
-.saved-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
-.empty{color:var(--muted);font-size:13px}
-.status{min-height:18px;margin-top:10px;color:#7a2d2d;font-size:13px}
-footer{
-  margin-top:36px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);
-  font-size:12px;display:flex;justify-content:space-between;gap:20px
+@media(max-width:900px){
+  .masthead{grid-template-columns:1fr}
+  .section{grid-template-columns:1fr}
+  .step{
+    position:static;
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+  }
+  .stepnum{font-size:34px}
+  .category-grid,.saved-grid,.field-grid{grid-template-columns:1fr}
 }
-@media(max-width:850px){
-  header{display:block}.intro{margin-top:22px}
-  .map-grid,.saved-grid{grid-template-columns:1fr 1fr}
-}
-@media(max-width:570px){
-  .shell{padding:36px 16px 60px}
-  .map-grid,.saved-grid{grid-template-columns:1fr}
-  .section-head{display:block}
+@media print{
+  body{background:#fff}
+  .screen-only{display:none!important}
+  .print-only{display:block!important}
+  .print-page{
+    page-break-after:always;
+    padding:16mm;
+  }
+  .print-page:last-child{page-break-after:auto}
+  .print-title{
+    font-size:28pt;
+    margin:0 0 3mm;
+  }
+  .print-credit{
+    font-size:9pt;
+    color:#777;
+    margin-bottom:6mm;
+    line-height:1.35;
+  }
+  .print-box{
+    border:1px solid #bbb;
+    padding:5mm;
+    margin-bottom:6mm;
+    break-inside:avoid;
+  }
+  .print-label{
+    font-size:8pt;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-weight:700;
+    color:#666;
+    margin-top:3mm;
+  }
+  .print-value{
+    font-size:11pt;
+    line-height:1.45;
+  }
+  .print-concept{
+    border-top:1px solid #bbb;
+    padding-top:5mm;
+    margin-top:5mm;
+    break-inside:avoid;
+  }
 }
 </style>
 </head>
 <body>
-<div class="shell">
 
-<header>
+<div class="wrap screen-only">
+<header class="masthead">
   <div>
     <div class="kicker">Design Concepts Toolkit</div>
-    <h1>Word Map<br>to Matrix</h1>
+    <h1>Word Map<br>to Concept</h1>
   </div>
-  <p class="intro">
-    Expand one subject into many possible directions, then combine ideas from different categories
-    to discover visual associations that can become conceptual logo sketches.
-  </p>
+  <div>
+    <p class="intro">
+      Start with meaning. Collect simple things you can visualize. Then explore one unexpected pairing at a time until two ideas become one symbol with a new meaning.
+    </p>
+    <div class="progress">
+      <a href="#meaning">01 Meaning</a>
+      <a href="#vocabulary">02 Word Map</a>
+      <a href="#explore">03 Concept Explorer</a>
+    </div>
+  </div>
 </header>
 
-<section class="section">
-  <div class="section-head">
-    <div>
-      <h2 class="section-title">1. Build Your Word Map</h2>
-      <p class="section-note">Start with one central subject, then explore it through several different categories.</p>
-    </div>
+<section class="section" id="meaning">
+  <div class="step">
+    <div class="stepnum">01</div>
+    <div class="steplabel">Meaning</div>
   </div>
 
-  <div class="section-body">
-    <div class="definition">
-      <strong>What is a word map?</strong><br>
-      A word map helps you move beyond the first, most obvious ideas. Place your main subject in the center,
-      then create categories that help you look at that subject from different directions. Under each category,
-      add specific words that could eventually become something visual or symbolic.
-      <ul class="example-list">
-        <li><strong>Things you can see:</strong> objects, tools, shapes, places, materials, animals, structures, natural forms</li>
-        <li><strong>Actions or movement:</strong> pull, split, grow, connect, drift, stack, fold, circle</li>
-        <li><strong>Feelings or qualities:</strong> trust, tension, calm, energy, mystery, protection — especially ideas that could be expressed symbolically</li>
-        <li><strong>Associations:</strong> words, metaphors, memories, rituals, environments, or ideas connected to the subject</li>
-      </ul>
-      The goal is to collect visual associations that can later be combined into concepts. You are not designing the logo yet.
+  <div class="content">
+    <h2 class="section-title">What should this business communicate?</h2>
+    <p class="section-deck">Begin with the business, not the logo.</p>
+
+    <div class="note">
+      Identify 5–8 dominant ideas that should shape the identity. Example:
+      <strong>Hollow Spine Books</strong> might suggest
+      <strong>hollow, spine, discovery, passage, hidden knowledge, journey, time, curiosity.</strong>
     </div>
 
-    <div class="center-box">
-      <div class="center-label">Central Subject</div>
-      <input id="centralSubject" placeholder="Example: business type, organization, theme, or idea">
-    </div>
-
-    <div id="mapGrid" class="map-grid"></div>
-
-    <div class="category-actions">
-      <button class="secondary" onclick="addCategory()">+ Add Category</button>
-    </div>
-
-    <div class="map-actions">
-      <button onclick="buildMatrix()">Build the Matrix</button>
-      <button class="secondary" onclick="resetEverything()">Reset Everything</button>
-    </div>
-
-    <div id="mapStatus" class="status"></div>
-  </div>
-</section>
-
-<section class="section" id="matrixSection">
-  <div class="section-head">
-    <div>
-      <h2 class="section-title">2. Explore the Word Matrix</h2>
-      <p class="section-note">Combine two ideas to discover a third meaning that could become a logo concept.</p>
-    </div>
-  </div>
-
-  <div class="section-body">
-    <div class="concept-box">
-      <strong>Think like a logo designer.</strong><br>
-      The goal is not simply to draw two things next to each other. Look for a way to combine two ordinary ideas
-      into one new symbol. Ask yourself:
-      <ul class="example-list">
-        <li>Could these two ideas become one visual?</li>
-        <li>What new meaning would appear if they were combined?</li>
-        <li>Could one idea become the shape, negative space, texture, movement, or structure of the other?</li>
-        <li>Would the result communicate something about the business without illustrating it literally?</li>
-      </ul>
-      <strong>Two ideas + one visual relationship = a third meaning.</strong>
-    </div>
-
-    <div id="matrixArea" class="matrix-wrap">
-      <div class="empty">Build your word map above, then click <strong>Build the Matrix</strong>.</div>
-    </div>
-
-    <div class="matrix-actions">
-      <button onclick="shuffleMatrix()">Shuffle Matrix</button>
-      <button class="secondary" onclick="clearSaved()">Clear Saved Concepts</button>
-    </div>
-
-    <div class="saved-area">
-      <h3 class="section-title">Saved Concept Directions</h3>
-      <p class="section-note">Save combinations only after you can describe the third idea they might become.</p>
-      <div id="savedGrid" class="saved-grid">
-        <div class="empty">No concept directions saved yet.</div>
+    <div class="field-grid">
+      <div>
+        <label>Business Name</label>
+        <input id="businessName" placeholder="Hollow Spine Books">
+      </div>
+      <div>
+        <label>Business Type</label>
+        <input id="businessType" placeholder="Independent Bookshop">
       </div>
     </div>
 
-    <div id="matrixStatus" class="status"></div>
+    <div style="margin-top:14px">
+      <label>Dominant Ideas</label>
+      <textarea id="dominantIdeas" placeholder="One idea per line"></textarea>
+      <div id="chips" class="chips"></div>
+    </div>
+
+    <div class="actions">
+      <button class="ghost" onclick="resetMeaning()">Reset Meaning</button>
+    </div>
+    <div class="autosave">Progress is saved automatically in this browser.</div>
   </div>
 </section>
 
-<footer>
-  <span>Design Concepts Toolkit</span>
-  <span>Runs entirely in your browser. No student data is collected.</span>
-</footer>
+<section class="section" id="vocabulary">
+  <div class="step">
+    <div class="stepnum">02</div>
+    <div class="steplabel">Word Map</div>
+  </div>
 
+  <div class="content">
+    <h2 class="section-title">Collect simple words you can turn into visual ideas.</h2>
+    <p class="section-deck">
+      The categories are there to help you look at the business from different distances and directions.
+    </p>
+
+    <div class="note">
+      <strong>Keep it simple enough to sketch quickly.</strong>
+      You are not illustrating a scene. You are collecting basic forms and ideas that could eventually merge into a logo.
+      Think first like an <strong>ant</strong>: what tiny things could you notice close up?
+      Then think like a <strong>hawk</strong>: what enormous things could you see from far away?
+    </div>
+
+    <div id="cats" class="category-grid"></div>
+
+    <div class="actions">
+      <button class="secondary" onclick="addCat()">+ Add Category</button>
+      <button class="ghost" onclick="clearWords()">Clear Words Only</button>
+      <button class="ghost" onclick="resetCategories()">Reset Categories</button>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="explore">
+  <div class="step">
+    <div class="stepnum">03</div>
+    <div class="steplabel">Concept Explorer</div>
+  </div>
+
+  <div class="content">
+    <h2 class="section-title">Explore one unexpected pairing at a time.</h2>
+    <p class="section-deck">
+      Your business name stays in view as context. The random pairing itself comes only from the words in your map.
+    </p>
+
+    <div class="note">
+      <strong>The pairing is not the concept.</strong>
+      Ask how the two ideas can become one visual relationship.
+      If the result is just two objects sitting next to each other, push it further.
+    </div>
+
+    <div class="actions">
+      <button onclick="startExplorer()">Start Exploring</button>
+      <button class="secondary" onclick="nextCombination()">Next Combination →</button>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <div id="explorer" class="explorer" style="display:none">
+      <div class="business-context" id="businessContext"></div>
+      <div class="pair-meta" id="source"></div>
+      <div class="pair" id="combo"></div>
+      <div class="whatif">What if these two ideas became one symbol?</div>
+
+      <label>Which dominant idea could this communicate?</label>
+      <div id="ideaButtons" class="idea-buttons"></div>
+
+      <label>Try a visual relationship</label>
+      <div id="relationshipPrompts" class="relationship-prompt"></div>
+
+      <label>Visual Relationship</label>
+      <textarea id="relationship" placeholder="How do the two ideas become one visual? Example: The negative space inside the book spine becomes a doorway."></textarea>
+
+      <label>Concept</label>
+      <textarea id="concept" placeholder="What larger idea emerges? Example: Books become places you enter."></textarea>
+
+      <label>Sketch Direction</label>
+      <textarea id="sketch" placeholder="What might you sketch? Keep it simple enough to read as a logo."></textarea>
+
+      <div class="reject">
+        <input id="tooLiteral" type="checkbox">
+        <strong>Too literal — reject this direction.</strong>
+      </div>
+
+      <div class="actions">
+        <button onclick="saveCurrent()">Save Concept</button>
+        <button class="secondary" onclick="nextCombination()">Skip / Next →</button>
+      </div>
+    </div>
+
+    <div class="saved-head">
+      <div>
+        <h3 style="margin:0">Saved Concept Directions</h3>
+        <p style="margin:5px 0 0;color:#777;font-size:13px">
+          Click the one that <strong>surprises you most</strong>.
+        </p>
+      </div>
+      <button class="ghost" onclick="clearSaved()">Clear Saved Concepts</button>
+    </div>
+
+    <div id="saved" class="saved-grid"></div>
+
+    <div class="actions" style="margin-top:20px">
+      <button class="cyan" onclick="prepareAndPrint()">Export / Save as PDF</button>
+      <button class="ghost" onclick="clearAllData()">Clear All Saved Progress</button>
+    </div>
+    <div class="autosave">
+      Export opens your browser's print window. Choose <strong>Save as PDF</strong>.
+    </div>
+  </div>
+</section>
+
+<div class="footer">
+  <div>
+    <div>Design Concepts Toolkit</div>
+    <div class="footer-credit">Version 1.0<br>L. Smarzik</div>
+  </div>
+  <span>Runs entirely in your browser. No student data is collected.</span>
+</div>
 </div>
 
+<div id="printArea" class="print-only"></div>
+
 <script>
-let saved = new Map();
-let currentCategories = [];
+let saved=[];
+let current=null;
+let surpriseIndex=-1;
 
-function parseWords(text){
-  return text.split(/\n|,/).map(x => x.trim()).filter(Boolean);
+const STORAGE_KEY='designConceptsWordMapConceptV1';
+
+const relationshipOptions=[
+  'Become the negative space',
+  'Replace part of the other',
+  'Share one silhouette',
+  'Contain the other',
+  'Cut into the other',
+  'Transform into the other',
+  'Overlap into one form',
+  'Use the same geometry'
+];
+
+function parse(t){
+  return t.split(/\n|,/).map(x=>x.trim()).filter(Boolean);
 }
 
-function titleCase(text){
-  return text.replace(/\b\w/g, c => c.toUpperCase());
+function esc(s){
+  return String(s||'')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
 }
 
-function addCategory(name="", words=""){
-  const grid = document.getElementById("mapGrid");
-  const card = document.createElement("div");
-  card.className = "category";
+function title(s){
+  return s.replace(/\b\w/g,c=>c.toUpperCase());
+}
 
-  const top = document.createElement("div");
-  top.className = "category-top";
+function dominant(){
+  return parse(document.getElementById('dominantIdeas').value);
+}
 
-  const input = document.createElement("input");
-  input.className = "category-name";
-  input.placeholder = "Category name";
-  input.value = name;
-
-  const remove = document.createElement("button");
-  remove.className = "remove";
-  remove.textContent = "×";
-  remove.title = "Remove category";
-  remove.onclick = () => {
-    if(document.querySelectorAll(".category").length <= 2){
-      document.getElementById("mapStatus").textContent = "Keep at least two categories in the word map.";
-      return;
+function starter(){
+  return [
+    {
+      name:'Things You Can See',
+      help:'Think like an ant, then like a hawk. Tiny: seed, bead, pin, grain, drop, crack, knot, pebble, leaf vein, keyhole. Huge: moon, mountain, river, cloud, forest, horizon, tower, bridge, arch. Choose simple things you can sketch quickly.'
+    },
+    {
+      name:'Movement & Change',
+      help:'Simple actions: fold, open, split, grow, drift, stack, connect, stretch, turn, rise, sink, weave.'
+    },
+    {
+      name:'Feelings & Ideas',
+      help:'Curiosity, trust, wonder, mystery, freedom, belonging, protection, energy, calm, memory, discovery.'
+    },
+    {
+      name:'Materials & Texture',
+      help:'Paper, glass, smoke, stone, linen, steel, bark, ink, wood, thread, wax, water.'
+    },
+    {
+      name:'Patterns & Shapes',
+      help:'Circle, grid, spiral, rings, ripple, layers, stripe, wave, arc, triangle, line, lattice.'
     }
-    card.remove();
+  ];
+}
+
+function saveProgress(){
+  const state={
+    businessName:document.getElementById('businessName').value,
+    businessType:document.getElementById('businessType').value,
+    dominantIdeas:document.getElementById('dominantIdeas').value,
+    categories:[...document.querySelectorAll('.category')].map(d=>({
+      name:d.querySelector('.name').value,
+      vals:d.querySelector('.vals').value,
+      help:d.querySelector('.category-help').textContent
+    })),
+    saved,
+    surpriseIndex
   };
-
-  const textarea = document.createElement("textarea");
-  textarea.placeholder = "Add one word per line";
-  textarea.value = words;
-
-  const count = document.createElement("div");
-  count.className = "word-count";
-
-  function updateCount(){
-    const total = parseWords(textarea.value).length;
-    count.textContent = total + (total === 1 ? " word" : " words");
-  }
-
-  textarea.addEventListener("input", updateCount);
-  updateCount();
-
-  top.appendChild(input);
-  top.appendChild(remove);
-  card.appendChild(top);
-  card.appendChild(textarea);
-  card.appendChild(count);
-  grid.appendChild(card);
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
 }
 
-function getCategories(){
-  return [...document.querySelectorAll(".category")].map((category, i) => ({
-    name: category.querySelector(".category-name").value.trim() || "Category " + (i+1),
-    words: parseWords(category.querySelector("textarea").value)
-  })).filter(cat => cat.words.length);
-}
+function loadProgress(){
+  const raw=localStorage.getItem(STORAGE_KEY);
+  if(!raw)return false;
 
-function buildMatrix(){
-  currentCategories = getCategories();
-  document.getElementById("mapStatus").textContent = "";
+  try{
+    const state=JSON.parse(raw);
 
-  if(currentCategories.length < 2){
-    document.getElementById("mapStatus").textContent =
-      "Add words to at least two categories before building the matrix.";
-    return;
-  }
+    document.getElementById('businessName').value=state.businessName||'';
+    document.getElementById('businessType').value=state.businessType||'';
+    document.getElementById('dominantIdeas').value=state.dominantIdeas||'';
 
-  renderMatrix();
-  document.getElementById("matrixSection").scrollIntoView({behavior:"smooth",block:"start"});
-}
+    document.getElementById('cats').innerHTML='';
 
-function pick(arr){
-  return arr[Math.floor(Math.random()*arr.length)];
-}
-
-function shuffle(arr){
-  for(let i=arr.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [arr[i],arr[j]]=[arr[j],arr[i]];
-  }
-  return arr;
-}
-
-function renderMatrix(){
-  const area = document.getElementById("matrixArea");
-  area.innerHTML = "";
-  document.getElementById("matrixStatus").textContent = "";
-
-  if(currentCategories.length < 2){
-    area.innerHTML = '<div class="empty">Build your word map above first.</div>';
-    return;
-  }
-
-  const table = document.createElement("table");
-  table.className = "matrix-table";
-
-  const thead = document.createElement("thead");
-  const headRow = document.createElement("tr");
-
-  const corner = document.createElement("th");
-  corner.textContent = "Word Matrix";
-  headRow.appendChild(corner);
-
-  currentCategories.slice(1).forEach(cat => {
-    const th = document.createElement("th");
-    th.textContent = cat.name;
-    headRow.appendChild(th);
-  });
-
-  thead.appendChild(headRow);
-  table.appendChild(thead);
-
-  const tbody = document.createElement("tbody");
-  const first = currentCategories[0];
-  const rowWords = shuffle([...first.words]).slice(0,8);
-
-  rowWords.forEach(rowWord => {
-    const tr = document.createElement("tr");
-
-    const rowHead = document.createElement("th");
-    rowHead.textContent = titleCase(rowWord);
-    tr.appendChild(rowHead);
-
-    currentCategories.slice(1).forEach(cat => {
-      const td = document.createElement("td");
-      const colWord = pick(cat.words);
-
-      const item = {
-        combo: titleCase(rowWord) + " + " + titleCase(colWord),
-        source: first.name + " × " + cat.name
-      };
-
-      const comboTitle = document.createElement("div");
-      comboTitle.className = "combo-title";
-      comboTitle.textContent = item.combo;
-
-      const source = document.createElement("div");
-      source.className = "combo-source";
-      source.textContent = item.source;
-
-      const concept = document.createElement("textarea");
-      concept.className = "concept-input";
-      concept.placeholder = "Possible concept: What third idea could these become visually?";
-
-      const key = item.combo + "||" + item.source;
-      if(saved.has(key)){
-        concept.value = saved.get(key).concept || "";
-      }
-
-      const saveBtn = document.createElement("button");
-      saveBtn.className = "save-btn" + (saved.has(key) ? " saved" : "");
-      saveBtn.textContent = saved.has(key) ? "Saved" : "Save Concept";
-
-      saveBtn.onclick = () => {
-        const conceptText = concept.value.trim();
-
-        if(!conceptText){
-          document.getElementById("matrixStatus").textContent =
-            "Write the possible third idea before saving this concept direction.";
-          concept.focus();
-          return;
-        }
-
-        document.getElementById("matrixStatus").textContent = "";
-
-        if(saved.has(key)){
-          saved.delete(key);
-          saveBtn.classList.remove("saved");
-          saveBtn.textContent = "Save Concept";
-        } else {
-          saved.set(key,{
-            combo:item.combo,
-            source:item.source,
-            concept:conceptText
-          });
-          saveBtn.classList.add("saved");
-          saveBtn.textContent = "Saved";
-        }
-
-        renderSaved();
-      };
-
-      td.appendChild(comboTitle);
-      td.appendChild(source);
-      td.appendChild(concept);
-      td.appendChild(saveBtn);
-      tr.appendChild(td);
+    (state.categories||[]).forEach(c=>{
+      addCat(c.name,c.vals,c.help,false);
     });
 
-    tbody.appendChild(tr);
-  });
+    saved=state.saved||[];
+    surpriseIndex=Number.isInteger(state.surpriseIndex)?state.surpriseIndex:-1;
 
-  table.appendChild(tbody);
-  area.appendChild(table);
+    renderChips(false);
+    renderSaved(false);
+
+    return true;
+  }catch(e){
+    return false;
+  }
 }
 
-function shuffleMatrix(){
-  if(currentCategories.length < 2){
-    document.getElementById("matrixStatus").textContent = "Build the matrix first.";
-    return;
-  }
-  renderMatrix();
+function renderChips(shouldSave=true){
+  const c=document.getElementById('chips');
+  c.innerHTML='';
+
+  dominant().forEach(x=>{
+    const d=document.createElement('div');
+    d.className='chip';
+    d.textContent=x;
+    c.appendChild(d);
+  });
+
+  if(shouldSave)saveProgress();
 }
 
-function renderSaved(){
-  const grid = document.getElementById("savedGrid");
-  grid.innerHTML = "";
+document.getElementById('dominantIdeas').addEventListener('input',()=>renderChips(true));
+document.getElementById('businessName').addEventListener('input',saveProgress);
+document.getElementById('businessType').addEventListener('input',saveProgress);
 
-  if(saved.size === 0){
-    const empty = document.createElement("div");
-    empty.className = "empty";
-    empty.textContent = "No concept directions saved yet.";
-    grid.appendChild(empty);
+function addCat(name='',vals='',help='',shouldSave=true){
+  const d=document.createElement('div');
+  d.className='category';
+
+  const top=document.createElement('div');
+  top.className='category-head';
+
+  const n=document.createElement('input');
+  n.className='name';
+  n.placeholder='Category name';
+  n.value=name;
+
+  const r=document.createElement('button');
+  r.className='ghost remove';
+  r.textContent='×';
+  r.title='Remove category';
+  r.onclick=()=>{
+    d.remove();
+    saveProgress();
+  };
+
+  const h=document.createElement('div');
+  h.className='category-help';
+  h.textContent=help||'Add words that help you see, feel, or imagine the business in a new way.';
+
+  const t=document.createElement('textarea');
+  t.className='vals';
+  t.placeholder='Add one word per line';
+  t.value=vals;
+
+  n.addEventListener('input',saveProgress);
+  t.addEventListener('input',saveProgress);
+
+  top.append(n,r);
+  d.append(top,h,t);
+  document.getElementById('cats').appendChild(d);
+
+  if(shouldSave)saveProgress();
+}
+
+function categories(){
+  return [...document.querySelectorAll('.category')]
+    .map((d,i)=>({
+      name:d.querySelector('.name').value.trim()||('Category '+(i+1)),
+      vals:parse(d.querySelector('.vals').value)
+    }))
+    .filter(x=>x.vals.length);
+}
+
+function pick(a){
+  return a[Math.floor(Math.random()*a.length)];
+}
+
+function randomPair(){
+  const cs=categories();
+  if(cs.length<2)return null;
+
+  let i=Math.floor(Math.random()*cs.length);
+  let j=i;
+
+  while(j===i){
+    j=Math.floor(Math.random()*cs.length);
+  }
+
+  const a=pick(cs[i].vals);
+  const b=pick(cs[j].vals);
+
+  return {
+    a,
+    b,
+    combo:title(a)+' + '+title(b),
+    source:cs[i].name+' × '+cs[j].name
+  };
+}
+
+function startExplorer(){
+  const st=document.getElementById('status');
+
+  if(dominant().length<3){
+    st.textContent='Add at least three dominant ideas first.';
     return;
   }
 
-  saved.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "saved-item";
+  if(categories().length<2){
+    st.textContent='Add words to at least two categories first.';
+    return;
+  }
 
-    const name = document.createElement("div");
-    name.className = "saved-name";
-    name.textContent = item.combo;
+  st.textContent='';
+  document.getElementById('explorer').style.display='block';
+  nextCombination();
+}
 
-    const source = document.createElement("div");
-    source.className = "saved-source";
-    source.textContent = item.source;
+function nextCombination(){
+  if(document.getElementById('explorer').style.display==='none'){
+    startExplorer();
+    return;
+  }
 
-    const label = document.createElement("div");
-    label.className = "saved-label";
-    label.textContent = "Possible Third Idea";
+  current=randomPair();
+  if(!current)return;
 
-    const concept = document.createElement("div");
-    concept.className = "saved-concept";
-    concept.textContent = item.concept;
+  const bn=document.getElementById('businessName').value.trim();
+  const bt=document.getElementById('businessType').value.trim();
 
-    div.appendChild(name);
-    div.appendChild(source);
-    div.appendChild(label);
-    div.appendChild(concept);
-    grid.appendChild(div);
+  document.getElementById('businessContext').textContent=
+    bn
+      ? 'For '+bn+(bt?' — '+bt:'')
+      : (bt?'For '+bt:'');
+
+  document.getElementById('source').textContent=current.source;
+  document.getElementById('combo').textContent=current.combo;
+
+  document.getElementById('relationship').value='';
+  document.getElementById('concept').value='';
+  document.getElementById('sketch').value='';
+  document.getElementById('tooLiteral').checked=false;
+
+  const ideas=document.getElementById('ideaButtons');
+  ideas.innerHTML='';
+
+  dominant().forEach(x=>{
+    const b=document.createElement('button');
+    b.className='idea';
+    b.textContent=x;
+    b.onclick=()=>b.classList.toggle('sel');
+    ideas.appendChild(b);
   });
+
+  const rel=document.getElementById('relationshipPrompts');
+  rel.innerHTML='';
+
+  relationshipOptions.forEach(x=>{
+    const b=document.createElement('button');
+    b.textContent=x;
+
+    b.onclick=()=>{
+      document.querySelectorAll('#relationshipPrompts button')
+        .forEach(q=>q.classList.remove('sel'));
+
+      b.classList.add('sel');
+
+      document.getElementById('relationship').value=x+': ';
+      document.getElementById('relationship').focus();
+    };
+
+    rel.appendChild(b);
+  });
+}
+
+function saveCurrent(){
+  const st=document.getElementById('status');
+  if(!current)return;
+
+  if(document.getElementById('tooLiteral').checked){
+    st.textContent='Rejected as too literal. Try another combination.';
+    nextCombination();
+    return;
+  }
+
+  const selectedIdeas=[
+    ...document.querySelectorAll('#ideaButtons .idea.sel')
+  ].map(b=>b.textContent);
+
+  const relationship=document.getElementById('relationship').value.trim();
+  const concept=document.getElementById('concept').value.trim();
+  const sketch=document.getElementById('sketch').value.trim();
+
+  if(!selectedIdeas.length||!relationship||!concept||!sketch){
+    st.textContent='Select a dominant idea and complete Visual Relationship, Concept, and Sketch Direction before saving.';
+    return;
+  }
+
+  saved.push({
+    ...current,
+    dominant:selectedIdeas,
+    relationship,
+    concept,
+    sketch
+  });
+
+  st.textContent='Concept saved.';
+  renderSaved();
+  saveProgress();
+  nextCombination();
+}
+
+function renderSaved(shouldSave=true){
+  const s=document.getElementById('saved');
+  s.innerHTML='';
+
+  if(!saved.length){
+    s.innerHTML='<div style="color:#777">No concepts saved yet.</div>';
+    if(shouldSave)saveProgress();
+    return;
+  }
+
+  saved.forEach((x,i)=>{
+    const d=document.createElement('div');
+
+    d.className='saved-card'+(i===surpriseIndex?' surprise':'');
+
+    d.onclick=()=>{
+      surpriseIndex=i;
+      renderSaved();
+    };
+
+    d.innerHTML=
+      '<div class="saved-pair">'+esc(x.combo)+'</div>'+
+      '<div class="saved-meta">'+esc(x.source)+'</div>'+
+      '<div class="saved-label">Dominant Idea</div>'+
+      '<div class="saved-text">'+esc(x.dominant.join(', '))+'</div>'+
+      '<div class="saved-label">Visual Relationship</div>'+
+      '<div class="saved-text">'+esc(x.relationship)+'</div>'+
+      '<div class="saved-label">Concept</div>'+
+      '<div class="saved-text">'+esc(x.concept)+'</div>'+
+      '<div class="saved-label">Sketch Direction</div>'+
+      '<div class="saved-text">'+esc(x.sketch)+'</div>'+
+      (i===surpriseIndex
+        ? '<div class="saved-label">★ Surprises Me Most</div>'
+        : '');
+
+    s.appendChild(d);
+  });
+
+  if(shouldSave)saveProgress();
+}
+
+function resetMeaning(){
+  document.getElementById('businessName').value='';
+  document.getElementById('businessType').value='';
+  document.getElementById('dominantIdeas').value='';
+  renderChips();
+}
+
+function resetCategories(){
+  document.getElementById('cats').innerHTML='';
+
+  starter().forEach(x=>{
+    addCat(x.name,'',x.help,false);
+  });
+
+  saveProgress();
+}
+
+function clearWords(){
+  document.querySelectorAll('.vals').forEach(t=>{
+    t.value='';
+  });
+
+  saveProgress();
 }
 
 function clearSaved(){
-  saved.clear();
+  saved=[];
+  surpriseIndex=-1;
   renderSaved();
-  renderMatrix();
 }
 
-function resetEverything(){
-  document.getElementById("centralSubject").value = "";
-  document.getElementById("mapGrid").innerHTML = "";
-  document.getElementById("mapStatus").textContent = "";
-  document.getElementById("matrixStatus").textContent = "";
-  document.getElementById("matrixArea").innerHTML =
-    '<div class="empty">Build your word map above, then click <strong>Build the Matrix</strong>.</div>';
-
-  currentCategories = [];
-  saved.clear();
-  renderSaved();
-
-  addCategory();
-  addCategory();
-  addCategory();
+function clearAllData(){
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
 }
 
-addCategory();
-addCategory();
-addCategory();
-renderSaved();
+function prepareAndPrint(){
+  const bn=document.getElementById('businessName').value.trim()||'Untitled Business';
+  const bt=document.getElementById('businessType').value.trim();
+  const ds=dominant();
+  const cs=categories();
+
+  const catHTML=cs.map(c=>
+    '<div class="print-concept">'+
+      '<strong>'+esc(c.name)+'</strong>'+
+      '<div class="print-value">'+esc(c.vals.join(', '))+'</div>'+
+    '</div>'
+  ).join('');
+
+  const savedHTML=saved.length
+    ? saved.map((x,i)=>
+      '<div class="print-concept">'+
+        '<strong>Concept '+(i+1)+': '+esc(x.combo)+(i===surpriseIndex?' ★':'')+'</strong>'+
+        '<div class="print-label">Dominant Idea</div>'+
+        '<div class="print-value">'+esc(x.dominant.join(', '))+'</div>'+
+        '<div class="print-label">Visual Relationship</div>'+
+        '<div class="print-value">'+esc(x.relationship)+'</div>'+
+        '<div class="print-label">Concept</div>'+
+        '<div class="print-value">'+esc(x.concept)+'</div>'+
+        '<div class="print-label">Sketch Direction</div>'+
+        '<div class="print-value">'+esc(x.sketch)+'</div>'+
+      '</div>'
+    ).join('')
+    : '<div class="print-value">No saved concepts.</div>';
+
+  document.getElementById('printArea').innerHTML=
+    '<div class="print-page">'+
+      '<div class="kicker">Design Concepts Toolkit</div>'+
+      '<h1 class="print-title">Word Map to Concept</h1>'+
+      '<div class="print-credit">Version 1.0<br>L. Smarzik</div>'+
+      '<div class="print-box">'+
+        '<div class="print-label">Business</div>'+
+        '<div class="print-value">'+esc(bn)+(bt?' — '+esc(bt):'')+'</div>'+
+        '<div class="print-label">Dominant Ideas</div>'+
+        '<div class="print-value">'+esc(ds.join(', '))+'</div>'+
+      '</div>'+
+      '<div class="print-box">'+
+        '<div class="print-label">Word Map</div>'+
+        catHTML+
+      '</div>'+
+    '</div>'+
+    '<div class="print-page">'+
+      '<div class="kicker">Design Concepts Toolkit</div>'+
+      '<h1 class="print-title">Concept Directions</h1>'+
+      '<div class="print-credit">Version 1.0<br>L. Smarzik</div>'+
+      savedHTML+
+    '</div>';
+
+  setTimeout(()=>window.print(),100);
+}
+
+if(!loadProgress()){
+  starter().forEach(x=>{
+    addCat(x.name,'',x.help,false);
+  });
+
+  renderSaved(false);
+  saveProgress();
+}
 </script>
 </body>
 </html>
