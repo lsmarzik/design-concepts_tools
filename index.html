@@ -439,6 +439,45 @@ button.gold{
   line-height:1.4;
   margin-top:2px;
 }
+
+.student-divider{
+  margin:66px 0 10px;
+  border-top:1px solid var(--line);
+  padding-top:18px;
+  text-align:center;
+}
+.student-divider span{
+  display:inline-block;
+  background:var(--bg);
+  padding:0 12px;
+  position:relative;
+  top:-28px;
+  color:#111;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.editorial-link{
+  display:inline-block;
+  margin-top:12px;
+  color:#111;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:700;
+  border-bottom:1px solid #111;
+  padding-bottom:2px;
+}
+.editorial-link:hover{opacity:.7}
+button.primary{
+  background:#111;
+  color:#fff;
+}
+button.accent{
+  background:var(--cyan);
+  color:#091113;
+}
+
 @media(max-width:900px){
   .masthead{grid-template-columns:1fr}
   .section{grid-template-columns:1fr}
@@ -467,7 +506,7 @@ button.gold{
   </div>
   <div>
     <p class="intro">
-      Transform a shared class vocabulary into unexpected naming directions. Collect, build, share, pair, and develop one final business name.
+      Transform a shared class vocabulary into unexpected naming directions. Collect, build, share, load, pair, and develop one final business name.
     </p>
     <div class="progress">
       <a href="#collect">01 Collect</a>
@@ -500,12 +539,9 @@ button.gold{
       <strong>10 unusual adjectives</strong> and <strong>10 unusual nouns</strong>.
     </div>
 
-    <div class="actions">
-      <a href="https://docs.google.com/spreadsheets/d/1lVtxk1mjVu9zvrjSpzJKEaFg7_WiePXKUJhWNjW-JJ4/edit?usp=sharing"
-         target="_blank" rel="noopener" style="text-decoration:none">
-        <button class="cyan" type="button">Open Google Sheet Template</button>
-      </a>
-    </div>
+    <a class="editorial-link"
+       href="https://docs.google.com/spreadsheets/d/1lVtxk1mjVu9zvrjSpzJKEaFg7_WiePXKUJhWNjW-JJ4/edit?usp=sharing"
+       target="_blank" rel="noopener">Open Google Sheet Template →</a>
 
     <div class="autosave">
       When everyone has contributed, continue to <strong>02 Build</strong>.
@@ -570,7 +606,7 @@ and
 Student | Noun | Noun | ..."></textarea>
 
     <div class="actions">
-      <button onclick="buildWordBank()">Build Class Word Bank</button>
+      <button class="primary" onclick="buildWordBank()">Build Class Word Bank</button>
       <button class="ghost" onclick="clearFacultyWordBank()">Clear Word Bank</button>
     </div>
     <div id="bankStatus" class="status"></div>
@@ -619,7 +655,7 @@ Student | Noun | Noun | ..."></textarea>
     </div>
 
     <div class="actions" id="facultyDownload">
-      <button id="facultyDownloadButton" onclick="downloadFacultyWordBank()" disabled>
+      <button id="facultyDownloadButton" class="primary" onclick="downloadFacultyWordBank()" disabled>
         Download Your Class Word Bank File
       </button>
     </div>
@@ -636,6 +672,8 @@ Student | Noun | Noun | ..."></textarea>
   </div>
 </section>
 
+<div class="student-divider"><span>Students Begin Here</span></div>
+
 <!-- =====================================================
      04 LOAD — STUDENTS BEGIN HERE
 ===================================================== -->
@@ -647,14 +685,14 @@ Student | Noun | Noun | ..."></textarea>
 
   <div class="content">
     <h2 class="section-title">Load the shared class vocabulary.</h2>
-    <p class="section-deck">Students begin here using the Class Word Bank File provided by the instructor.</p>
+    <p class="section-deck">Begin here with the Class Word Bank File provided by your instructor.</p>
 
     <div class="note student">
       <strong>Students begin here.</strong> Download the Class Word Bank File your instructor provided. Click the button below, then select that file from your computer. Once loaded, the word bank will be remembered in this browser until you clear it.
     </div>
 
     <div class="actions">
-      <button onclick="document.getElementById('wordBankFile').click()">Load Class Word Bank File</button>
+      <button class="primary" onclick="document.getElementById('wordBankFile').click()">Load Class Word Bank File</button>
       <button class="ghost" onclick="clearRememberedWordBank()">Clear Remembered Word Bank</button>
     </div>
     <input class="file-input" type="file" id="wordBankFile" accept=".json,application/json">
@@ -699,7 +737,7 @@ Student | Noun | Noun | ..."></textarea>
     </div>
 
     <div class="actions">
-      <button onclick="generateNames()">Explore Pairs</button>
+      <button class="primary" onclick="generateNames()">Explore Pairs</button>
       <button class="secondary" onclick="generateNames()">Another Round →</button>
       <button class="ghost" onclick="clearCurrentRound()">Clear Current Round</button>
     </div>
@@ -738,7 +776,7 @@ Student | Noun | Noun | ..."></textarea>
     </div>
 
     <div class="actions" style="margin-top:20px">
-      <button class="cyan" onclick="downloadPDF()">Download PDF</button>
+      <button class="primary" onclick="downloadPDF()">Download PDF</button>
     </div>
     <div class="autosave">The PDF records your business type, explored pairs, saved directions, and final selected business name.</div>
   </div>
@@ -747,7 +785,7 @@ Student | Noun | Noun | ..."></textarea>
 <div class="footer">
   <div>
     <div>Design Concepts Toolkit</div>
-    <div class="footer-credit">Version 4.0<br>L. Smarzik</div>
+    <div class="footer-credit">Version 4.1<br>L. Smarzik</div>
   </div>
   <span>Runs entirely in your browser. No student data is collected.</span>
 </div>
@@ -755,7 +793,7 @@ Student | Noun | Noun | ..."></textarea>
 </div>
 
 <script>
-const WORDBANK_STORAGE_KEY='designConceptsConceptPairingBankV4';
+const WORDBANK_STORAGE_KEY='designConceptsConceptPairingBankV41';
 let generatedHistory=[];
 let currentRound=[];
 let shortlist=[];
@@ -916,7 +954,7 @@ function saveClassWordBank(){
 
   const payload={
     tool:'Design Concepts Concept Pairing',
-    version:'4.0',
+    version:'4.1',
     created:new Date().toISOString(),
     adjectives:bank.adjectives,
     nouns:bank.nouns
@@ -1191,7 +1229,7 @@ function downloadPDF(){
   doc.setFont('helvetica','normal');
   doc.setFontSize(9);
   doc.setTextColor(110);
-  doc.text('Version 4.0',margin,y);
+  doc.text('Version 4.1',margin,y);
   y+=12;
   doc.text('L. Smarzik',margin,y);
   y+=26;
