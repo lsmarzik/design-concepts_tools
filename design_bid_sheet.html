@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Design Concepts — Project Bid Sheet</title>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --bg:#f3f3ef;
+  --paper:#ffffff;
+  --ink:#101010;
+  --muted:#6f6f68;
+  --line:#d8d8d1;
+  --soft:#ecece6;
+  --cyan:#18b9cc;
+  --gold:#f5bd15;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:48px 28px 96px}
+.masthead{display:grid;grid-template-columns:1.3fr .7fr;gap:48px;align-items:end;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:700;margin-bottom:14px}
+h1{margin:0;font-size:clamp(46px,7vw,82px);line-height:.88;letter-spacing:-.055em;font-weight:700}
+.intro{margin:0;color:#44443f;font-size:17px;line-height:1.55;max-width:500px}
+.progress{display:flex;gap:8px;margin:26px 0 0;flex-wrap:wrap}
+.progress a{text-decoration:none;color:#111;border:1px solid var(--line);background:#fff;padding:8px 11px;font-size:12px;font-weight:700}
+.section{margin-top:54px;display:grid;grid-template-columns:180px 1fr;gap:28px;align-items:start}
+.step{position:sticky;top:18px}.stepnum{font-size:56px;line-height:1;letter-spacing:-.05em;font-weight:700}.steplabel{margin-top:8px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:700}
+.content{min-width:0}.section-title{margin:0 0 8px;font-size:26px;line-height:1.08;letter-spacing:-.03em}.section-deck{margin:0 0 18px;color:#55554f;font-size:15px;line-height:1.5;max-width:800px}
+.note{background:#fff;border-left:4px solid #111;padding:16px 18px;color:#3e3e39;font-size:14px;line-height:1.55;margin-bottom:18px}.note.student{border-left-color:var(--gold)}.note.teaching{border-left-color:var(--cyan)}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field-grid.three{grid-template-columns:1fr 1fr 1fr}
+label,.mini-label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em}
+input,textarea,select{width:100%;border:1px solid #bebeb7;background:#fff;color:#111;padding:12px 13px;font:15px/1.45 Arial,Helvetica,sans-serif;outline:none}
+input:focus,textarea:focus,select:focus{border-color:#111;box-shadow:0 0 0 1px #111 inset} textarea{resize:vertical;min-height:110px}
+.substep{border-top:1px solid var(--line);padding:22px 0 2px;margin-top:22px}.substep:first-of-type{border-top:0;padding-top:0;margin-top:0}.substep-kicker{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}.substep-title{margin:0 0 8px;font-size:20px;letter-spacing:-.02em}.substep-copy{margin:0 0 14px;color:#55554f;font-size:14px;line-height:1.55;max-width:820px}
+.phase-table{width:100%;border-collapse:collapse;background:#fff}.phase-table th,.phase-table td{border:1px solid var(--line);padding:10px;text-align:left}.phase-table th{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);background:#fafaf7}.phase-table input{border:0;padding:8px 4px;background:transparent}.phase-table input:focus{box-shadow:none;outline:1px solid #111}.money{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}button{appearance:none;border:0;background:#111;color:#fff;padding:11px 15px;font:700 13px Arial,Helvetica,sans-serif;cursor:pointer}button:hover{opacity:.86}button.ghost{background:#fff;color:#111;border:1px solid #c9c9c2}button.cyan{background:var(--cyan);color:#091113}button.gold{background:var(--gold);color:#111}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}.metric{background:#fff;border:1px solid var(--line);padding:18px}.metric-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700}.metric-value{font-size:30px;font-weight:700;letter-spacing:-.03em;margin-top:7px}.metric-note{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.4}
+.big-total{background:#111;color:#fff;padding:24px;margin-top:16px}.big-total .metric-label{color:#bbb}.big-total .metric-value{font-size:46px}.warning{margin-top:12px;padding:14px 16px;background:#fff;border-left:4px solid var(--gold);font-size:13px;line-height:1.5}.warning.ok{border-left-color:var(--cyan)}
+.client-summary{background:#fff;border-top:6px solid #111;padding:28px;margin-top:18px}.client-summary h3{font-size:30px;letter-spacing:-.03em;margin:0 0 6px}.client-summary .meta{color:var(--muted);font-size:13px;margin-bottom:24px}.summary-block{padding:18px 0;border-top:1px solid var(--line)}.summary-block:first-of-type{border-top:0}.summary-block h4{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.1em}.summary-block p{margin:0;color:#3f3f3a;line-height:1.55;white-space:pre-wrap}.summary-price{font-size:36px;font-weight:700;letter-spacing:-.03em}
+.autosave{margin-top:10px;color:var(--muted);font-size:11px}.footer{margin-top:70px;border-top:1px solid var(--line);padding-top:16px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:11px}.footer-credit{font-size:10px;color:#8a8a84;line-height:1.4;margin-top:2px}
+@media(max-width:900px){.masthead{grid-template-columns:1fr}.section{grid-template-columns:1fr}.step{position:static;display:flex;align-items:baseline;gap:12px}.stepnum{font-size:34px}.field-grid,.field-grid.three,.summary-grid{grid-template-columns:1fr}.phase-table{font-size:12px}.phase-table th:nth-child(1),.phase-table td:nth-child(1){min-width:140px}}
+@media print{body{background:#fff}.wrap{max-width:none;padding:0}.masthead,.progress,.step,.note,.actions,.autosave,.footer,.section:not(#summarySection){display:none!important}#summarySection{display:block;margin:0}.client-summary{border:0;padding:0}.summary-grid,.big-total,.warning{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="masthead">
+  <div><div class="kicker">Design Concepts Toolkit</div><h1>Project<br>Bid Sheet</h1></div>
+  <div><p class="intro">Build a project bid from the work behind it. Estimate time, account for expenses and revisions, then generate a clean client-facing summary.</p>
+    <div class="progress"><a href="#project">01 Project</a><a href="#scope">02 Scope</a><a href="#time">03 Time</a><a href="#costs">04 Costs</a><a href="#price">05 Price</a><a href="#summarySection">06 Bid</a></div>
+  </div>
+</header>
+
+<section class="section" id="project"><div class="step"><div class="stepnum">01</div><div class="steplabel">Project</div></div><div class="content">
+<h2 class="section-title">Start with the project, not the price.</h2><p class="section-deck">A useful bid begins by defining what you are actually being asked to do.</p>
+<div class="field-grid"><div><label>Student / Designer</label><input id="designer" placeholder="Your name"></div><div><label>Client</label><input id="client" placeholder="Client or organization"></div><div><label>Project Name</label><input id="projectName" placeholder="Annual Report, Event Identity, Website..."></div><div><label>Project Type</label><input id="projectType" placeholder="Brand identity, editorial, digital, campaign..."></div></div>
+</div></section>
+
+<section class="section" id="scope"><div class="step"><div class="stepnum">02</div><div class="steplabel">Scope</div></div><div class="content">
+<h2 class="section-title">Define what is included.</h2><p class="section-deck">A bid is only meaningful when the scope is clear. Write the deliverables in plain language.</p>
+<div class="field-grid"><div><label>Deliverables</label><textarea id="deliverables" placeholder="Example: concept development, one primary logo, secondary mark, color palette, typography system, final files..."></textarea></div><div><label>Not Included / Assumptions</label><textarea id="excluded" placeholder="Example: printing, copywriting, photography, additional concepts, revisions beyond two rounds..."></textarea></div></div>
+<div class="substep"><div class="substep-kicker">Revisions</div><h3 class="substep-title">Set the boundary before the work begins.</h3><div class="field-grid three"><div><label>Revision Rounds Included</label><input id="revisionRounds" type="number" min="0" step="1" value="2"></div><div><label>Deposit %</label><input id="depositPct" type="number" min="0" max="100" step="1" value="50"></div><div><label>Project Length</label><input id="timeline" placeholder="3–4 weeks"></div></div></div>
+</div></section>
+
+<section class="section" id="time"><div class="step"><div class="stepnum">03</div><div class="steplabel">Time</div></div><div class="content">
+<h2 class="section-title">Estimate the work by phase.</h2><p class="section-deck">Flat project fees should still be built from a realistic estimate of the hours required.</p>
+<div class="note teaching"><strong>Think like a designer and a business owner.</strong> Concept development is billable. So are emails, meetings, file preparation, research, revisions, and project management.</div>
+<table class="phase-table"><thead><tr><th>Phase</th><th style="width:130px">Hours</th><th style="width:150px">Hourly Rate</th><th style="width:150px">Phase Cost</th></tr></thead><tbody id="phaseBody"></tbody></table>
+<div class="actions"><button class="ghost" onclick="addPhase()">+ Add Phase</button></div>
+</div></section>
+
+<section class="section" id="costs"><div class="step"><div class="stepnum">04</div><div class="steplabel">Costs</div></div><div class="content">
+<h2 class="section-title">Add the costs that are easy to forget.</h2><p class="section-deck">Outside expenses and uncertainty should not quietly come out of your design fee.</p>
+<div class="field-grid three"><div><label>Outside Expenses ($)</label><input id="expenses" type="number" min="0" step="0.01" value="0"></div><div><label>Contingency %</label><input id="contingency" type="number" min="0" step="1" value="10"></div><div><label>Rush Fee %</label><input id="rush" type="number" min="0" step="1" value="0"></div></div>
+<div class="substep"><label>Expense Notes</label><textarea id="expenseNotes" placeholder="Stock photography, fonts, printing proofs, travel, hosting, outside illustration..."></textarea></div>
+</div></section>
+
+<section class="section" id="price"><div class="step"><div class="stepnum">05</div><div class="steplabel">Price</div></div><div class="content">
+<h2 class="section-title">See what your bid really means.</h2><p class="section-deck">The calculator shows both the project total and the effective hourly rate after expenses.</p>
+<div class="summary-grid"><div class="metric"><div class="metric-label">Estimated Hours</div><div class="metric-value" id="hoursOut">0</div><div class="metric-note">Total time across all phases.</div></div><div class="metric"><div class="metric-label">Labor</div><div class="metric-value" id="laborOut">$0</div><div class="metric-note">Hours × rate before expenses and buffers.</div></div><div class="metric"><div class="metric-label">Expenses + Adjustments</div><div class="metric-value" id="extrasOut">$0</div><div class="metric-note">Outside costs, contingency, and rush fee.</div></div><div class="metric"><div class="metric-label">Effective Hourly Rate</div><div class="metric-value" id="effectiveOut">$0</div><div class="metric-note">What the project pays per working hour after outside expenses.</div></div></div>
+<div class="big-total"><div class="metric-label">Recommended Project Bid</div><div class="metric-value" id="totalOut">$0</div></div>
+<div id="rateWarning" class="warning"></div>
+</div></section>
+
+<section class="section" id="summarySection"><div class="step"><div class="stepnum">06</div><div class="steplabel">Bid</div></div><div class="content">
+<h2 class="section-title">Turn the estimate into a client-facing bid.</h2><p class="section-deck">This summary shows the client the scope and price without exposing your internal hourly calculations.</p>
+<div class="client-summary" id="clientSummary">
+<h3 id="sumProject">Project Bid</h3><div class="meta" id="sumMeta">Prepared by — for —</div>
+<div class="summary-block"><h4>Project Scope</h4><p id="sumDeliverables">Add your deliverables above.</p></div>
+<div class="summary-block"><h4>Project Fee</h4><div class="summary-price" id="sumTotal">$0</div><p id="sumDeposit"></p></div>
+<div class="summary-block"><h4>Includes</h4><p id="sumIncludes"></p></div>
+<div class="summary-block"><h4>Assumptions / Not Included</h4><p id="sumExcluded">—</p></div>
+<div class="summary-block"><h4>Schedule</h4><p id="sumTimeline">To be determined.</p></div>
+</div>
+<div class="actions"><button class="cyan" onclick="downloadPDF()">Download Bid PDF</button><button class="ghost" onclick="window.print()">Print / Save as PDF</button><button class="ghost" onclick="resetTool()">Reset Tool</button></div><div class="autosave">Your work is saved automatically in this browser. Nothing is uploaded to a server.</div>
+</div></section>
+
+<div class="footer"><div>Design Concepts Toolkit</div><div class="footer-credit">Project Bid Sheet · L. Smarzik</div></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const phaseDefaults=[['Research / Discovery',4,50],['Concept Development',8,50],['Design / Production',12,50],['Revisions',4,50],['Final File Preparation',2,50],['Project Management',3,50]];
+let phases=[];
+function money(v){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(isFinite(v)?v:0)}
+function renderPhases(){const body=$('phaseBody');body.innerHTML='';phases.forEach((p,i)=>{const tr=document.createElement('tr');tr.innerHTML=`<td><input aria-label="Phase name" value="${esc(p.name)}" oninput="phaseEdit(${i},'name',this.value)"></td><td><input aria-label="Hours" type="number" min="0" step="0.25" value="${p.hours}" oninput="phaseEdit(${i},'hours',this.value)"></td><td><input aria-label="Rate" type="number" min="0" step="1" value="${p.rate}" oninput="phaseEdit(${i},'rate',this.value)"></td><td class="money">${money((+p.hours||0)*(+p.rate||0))}</td>`;body.appendChild(tr)});calc();}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function phaseEdit(i,key,val){phases[i][key]=key==='name'?val:(parseFloat(val)||0);renderPhases();save();}
+function addPhase(){phases.push({name:'Additional Phase',hours:0,rate:50});renderPhases();save();}
+function val(id){return $(''+id).value.trim()}
+function num(id){return parseFloat($(''+id).value)||0}
+function calc(){
+ let hours=0,labor=0; phases.forEach(p=>{hours+=(+p.hours||0);labor+=(+p.hours||0)*(+p.rate||0)});
+ const expenses=num('expenses'), contingency=labor*num('contingency')/100, rush=labor*num('rush')/100;
+ const total=labor+expenses+contingency+rush, effective=hours?Math.max(0,(total-expenses)/hours):0, deposit=total*num('depositPct')/100;
+ $('hoursOut').textContent=(Math.round(hours*100)/100).toString(); $('laborOut').textContent=money(labor); $('extrasOut').textContent=money(expenses+contingency+rush); $('effectiveOut').textContent=money(effective); $('totalOut').textContent=money(total);
+ const lowestRate=phases.filter(p=>p.hours>0&&p.rate>0).reduce((m,p)=>Math.min(m,p.rate),Infinity);
+ const w=$('rateWarning'); if(hours===0){w.className='warning';w.textContent='Add your estimated hours to see whether the bid supports your intended rate.'} else if(lowestRate!==Infinity && effective<lowestRate){w.className='warning';w.textContent=`Watch the math: this bid works out to about ${money(effective)} per working hour before taxes. Recheck the scope, expenses, and time estimate.`} else {w.className='warning ok';w.textContent=`This bid works out to about ${money(effective)} per working hour before taxes. Ask yourself whether that still makes sense for the scope, responsibility, and value of the project.`}
+ $('sumProject').textContent=val('projectName')||'Project Bid'; $('sumMeta').textContent=`Prepared by ${val('designer')||'—'} for ${val('client')||'—'}`; $('sumDeliverables').textContent=val('deliverables')||'Add your deliverables above.'; $('sumTotal').textContent=money(total); $('sumDeposit').textContent=`${num('depositPct')}% deposit: ${money(deposit)} · Balance: ${money(total-deposit)}`; $('sumIncludes').textContent=`${num('revisionRounds')} revision round${num('revisionRounds')===1?'':'s'} included.${val('expenseNotes')?`\nOutside expenses noted: ${val('expenseNotes')}`:''}`; $('sumExcluded').textContent=val('excluded')||'—'; $('sumTimeline').textContent=val('timeline')||'To be determined.';
+ return {hours,labor,expenses,contingency,rush,total,effective,deposit};
+}
+function save(){const data={phases};['designer','client','projectName','projectType','deliverables','excluded','revisionRounds','depositPct','timeline','expenses','contingency','rush','expenseNotes'].forEach(id=>data[id]=$(''+id).value);localStorage.setItem('designBidSheet',JSON.stringify(data));calc();}
+function load(){try{const d=JSON.parse(localStorage.getItem('designBidSheet')||'null'); if(!d){phases=phaseDefaults.map(([name,hours,rate])=>({name,hours,rate}));return} phases=Array.isArray(d.phases)&&d.phases.length?d.phases:phaseDefaults.map(([name,hours,rate])=>({name,hours,rate})); Object.keys(d).forEach(k=>{if($(k)&&k!=='phases')$(k).value=d[k]});}catch(e){phases=phaseDefaults.map(([name,hours,rate])=>({name,hours,rate}))}}
+function resetTool(){if(!confirm('Clear this bid sheet and start over?'))return;localStorage.removeItem('designBidSheet');location.reload()}
+function wrap(doc,text,width){return doc.splitTextToSize(String(text||'—'),width)}
+function downloadPDF(){
+ const {jsPDF}=window.jspdf; const doc=new jsPDF({unit:'pt',format:'letter'}); const m=54,w=504; let y=54; const totals=calc();
+ function label(t){doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(105);doc.text(String(t).toUpperCase(),m,y);y+=14;doc.setTextColor(17)}
+ function text(t,size=11,bold=false,gap=16){doc.setFont('helvetica',bold?'bold':'normal');doc.setFontSize(size);const lines=wrap(doc,t,w);doc.text(lines,m,y);y+=lines.length*(size*1.35)+gap}
+ function rule(){doc.setDrawColor(190);doc.line(m,y,w+m,y);y+=18}
+ doc.setTextColor(17);doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text('DESIGN CONCEPTS TOOLKIT',m,y);y+=24;doc.setFontSize(24);doc.text('Project Bid',m,y);y+=20;doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(110);doc.text(`Prepared by ${val('designer')||'—'} for ${val('client')||'—'}`,m,y);y+=28;doc.setTextColor(17);
+ label('Project');text(val('projectName')||'Project Bid',16,true,10); if(val('projectType'))text(val('projectType'),10,false,12);rule();label('Project Scope');text(val('deliverables')||'—',10,false,14);label('Project Fee');text(money(totals.total),20,true,8);text(`${num('depositPct')}% deposit: ${money(totals.deposit)}   |   Balance: ${money(totals.total-totals.deposit)}`,10,false,16);rule();label('Includes');text(`${num('revisionRounds')} revision round${num('revisionRounds')===1?'':'s'} included.${val('expenseNotes')?` Outside expenses noted: ${val('expenseNotes')}`:''}`,10,false,14);label('Assumptions / Not Included');text(val('excluded')||'—',10,false,14);label('Schedule');text(val('timeline')||'To be determined.',10,false,14);
+ const safe=(val('client')||val('projectName')||'Project').replace(/[^a-z0-9]+/gi,'_').replace(/^_+|_+$/g,'');doc.save(`${safe}_Bid.pdf`);
+}
+load();renderPhases();
+document.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('input',save));
+</script>
+</body>
+</html>
