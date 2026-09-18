@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Design Concepts — Logo Assignment Guide</title>
+<style>
+:root{--bg:#f3f3ef;--paper:#fff;--ink:#101010;--muted:#6f6f68;--line:#d8d8d1;--soft:#ecece6;--cyan:#18b9cc;--gold:#f5bd15}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:48px 28px 96px}
+.masthead{display:grid;grid-template-columns:1.3fr .7fr;gap:48px;align-items:end;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:700;margin-bottom:14px}
+h1{margin:0;font-size:clamp(46px,7vw,82px);line-height:.88;letter-spacing:-.055em;font-weight:700}
+.intro{margin:0;color:#44443f;font-size:17px;line-height:1.55;max-width:520px}
+.progressbar{height:8px;background:#deded8;margin-top:22px;position:relative} .progressfill{height:100%;width:0;background:#111;transition:.2s}
+.progressmeta{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.progress{display:flex;gap:8px;margin:22px 0 0;flex-wrap:wrap}
+.progress a{text-decoration:none;color:#111;border:1px solid var(--line);background:#fff;padding:8px 11px;font-size:12px;font-weight:700}
+.section{margin-top:54px;display:grid;grid-template-columns:180px 1fr;gap:28px;align-items:start}
+.step{position:sticky;top:18px} .stepnum{font-size:56px;line-height:1;letter-spacing:-.05em;font-weight:700}
+.steplabel{margin-top:8px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:700}
+.content{min-width:0} .part-head{display:flex;justify-content:space-between;align-items:end;border-bottom:4px solid #111;padding-bottom:16px;margin-bottom:2px;gap:20px}
+h2{margin:0;font-size:30px;letter-spacing:-.035em} .part-count{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.task{position:relative;border-bottom:1px solid var(--line);background:transparent;padding:20px 0}
+.checkrow{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;cursor:pointer;padding-right:190px}
+.checkrow input{position:absolute;opacity:0;pointer-events:none}
+.box{width:22px;height:22px;border:1.5px solid #111;background:#fff;display:grid;place-items:center;margin-top:1px}
+.checkrow input:checked + .box{background:#111} .checkrow input:checked + .box:after{content:"✓";color:#fff;font-size:14px;font-weight:700}
+.task-title{font-size:18px;font-weight:700;letter-spacing:-.02em;line-height:1.25}
+.task.done .task-title{text-decoration:line-through;color:#777}
+.explain{position:absolute;right:0;top:17px;border:0;border-bottom:1px solid #111;background:transparent;padding:4px 0;color:#111;font:700 12px Arial;cursor:pointer}
+.help{display:grid;grid-template-rows:0fr;transition:grid-template-rows .22s ease} .help.open{grid-template-rows:1fr}
+.help-inner{overflow:hidden} .help-inner{margin-left:40px}
+.help.open .help-inner{margin-top:16px;background:#fff;border-left:4px solid var(--cyan);padding:16px 18px;color:#3e3e39;font-size:14px;line-height:1.55}
+.next{margin-top:54px;background:#111;color:#fff;padding:24px 28px;display:flex;justify-content:space-between;gap:24px;align-items:center}
+.next .label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#bbb;font-weight:700} .next .what{font-size:24px;font-weight:700;letter-spacing:-.03em;margin-top:5px}
+.reset{border:1px solid #777;background:#111;color:#fff;padding:10px 13px;font-weight:700;cursor:pointer}
+.footer{margin-top:70px;border-top:1px solid var(--line);padding-top:16px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:11px}
+@media(max-width:900px){.masthead{grid-template-columns:1fr}.section{grid-template-columns:1fr}.step{position:static;display:flex;align-items:baseline;gap:12px}.stepnum{font-size:34px}.checkrow{padding-right:0}.explain{position:static;margin:10px 0 0 40px}}
+</style></head>
+<body><div class="wrap">
+<header class="masthead">
+<div><div class="kicker">Design Concepts Toolkit</div><h1>Logo<br>Assignment Guide</h1></div>
+<div><p class="intro">From Idea to Icon: Conceptualizing a Logo. Use this guide alongside the full assignment to see what is required, check your progress, and open an explanation when you need one.</p>
+<div class="progressbar"><div class="progressfill" id="fill"></div></div><div class="progressmeta"><span id="count">0 complete</span><span id="percent">0%</span></div>
+<div class="progress"><a href="#part-01">01 Discovery</a><a href="#part-02">02 Concept</a><a href="#part-03">03 Refine</a><a href="#part-04">04 Final</a></div></div>
+</header>
+
+    <section class="section" id="part-01">
+      <div class="step"><div class="stepnum">01</div><div class="steplabel">Discovery</div></div>
+      <div class="content">
+        <div class="part-head"><div><div class="kicker">Competency Two</div><h2>Discovery</h2></div><div class="part-count"></div></div>
+        
+        <div class="task" data-key="task-1">
+          <label class="checkrow">
+            <input type="checkbox" id="task-1">
+            <span class="box"></span>
+            <span class="task-title">Choose your business type</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">With your assigned partner, select one business type. Claim it in Milanote or Miro with your initials. You will each create your own business name and logo.</div></div>
+        </div>
+        <div class="task" data-key="task-2">
+          <label class="checkrow">
+            <input type="checkbox" id="task-2">
+            <span class="box"></span>
+            <span class="task-title">Contribute to the class word bank</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Add 10 unusual nouns and 10 unusual adjectives during class.</div></div>
+        </div>
+        <div class="task" data-key="task-3">
+          <label class="checkrow">
+            <input type="checkbox" id="task-3">
+            <span class="box"></span>
+            <span class="task-title">Generate your business name</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Use the Naming Generator to explore several rounds. Select one original, memorable name that is open to interpretation.</div></div>
+        </div>
+        <div class="task" data-key="task-4">
+          <label class="checkrow">
+            <input type="checkbox" id="task-4">
+            <span class="box"></span>
+            <span class="task-title">Research six conceptual logos</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Find six professional logos that communicate an idea. For each, identify the designer/studio, business/organization, explain why it is conceptual, and identify the ideas combined.</div></div>
+        </div>
+        <div class="task" data-key="task-5">
+          <label class="checkrow">
+            <input type="checkbox" id="task-5">
+            <span class="box"></span>
+            <span class="task-title">Upload your logo research</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Place all six logos and your written analysis on your Milanote or Miro board. Be ready to present your three strongest examples.</div></div>
+        </div>
+        <div class="task" data-key="task-6">
+          <label class="checkrow">
+            <input type="checkbox" id="task-6">
+            <span class="box"></span>
+            <span class="task-title">Build your mood board</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Collect approximately 12–15 images showing visual direction, audience, style, typography, colors, competitors, and overall feeling. Do not use AI.</div></div>
+        </div>
+        <div class="task" data-key="task-7">
+          <label class="checkrow">
+            <input type="checkbox" id="task-7">
+            <span class="box"></span>
+            <span class="task-title">Write your creative brief</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Identify goals/objectives, target audience, messaging/tone, assets and deliverables. Do not use AI.</div></div>
+        </div>
+        <div class="task" data-key="task-8">
+          <label class="checkrow">
+            <input type="checkbox" id="task-8">
+            <span class="box"></span>
+            <span class="task-title">Organize your board</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Make sure your logo research, business name, creative brief, and mood board are clearly presented.</div></div>
+        </div>
+        <div class="task" data-key="task-9">
+          <label class="checkrow">
+            <input type="checkbox" id="task-9">
+            <span class="box"></span>
+            <span class="task-title">Prepare Part One PDF</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Use white-background slides: six logo research slides, creative brief/business name, and mood board. Save as LASTNAME_C2_Part_1.pdf. Do not submit links or ZIP files.</div></div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="part-02">
+      <div class="step"><div class="stepnum">02</div><div class="steplabel">Concept Development</div></div>
+      <div class="content">
+        <div class="part-head"><div><div class="kicker">Competency Two</div><h2>Concept Development</h2></div><div class="part-count"></div></div>
+        
+        <div class="task" data-key="task-10">
+          <label class="checkrow">
+            <input type="checkbox" id="task-10">
+            <span class="box"></span>
+            <span class="task-title">Complete your word map</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Use the Word Map to Concept tool. Build categories connected to your business name and creative brief, then add visible things, actions/movement, symbolic feelings, materials, places, metaphors, and other visual associations.</div></div>
+        </div>
+        <div class="task" data-key="task-11">
+          <label class="checkrow">
+            <input type="checkbox" id="task-11">
+            <span class="box"></span>
+            <span class="task-title">Build your matrix</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Combine words from different categories. Ask what two ideas could become when merged into one symbol. Look for a third meaning, not two separate objects.</div></div>
+        </div>
+        <div class="task" data-key="task-12">
+          <label class="checkrow">
+            <input type="checkbox" id="task-12">
+            <span class="box"></span>
+            <span class="task-title">Save the Word to Concept PDF</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Save the PDF from the tool as LASTNAME_C2_Exercise_3.pdf.</div></div>
+        </div>
+        <div class="task" data-key="task-13">
+          <label class="checkrow">
+            <input type="checkbox" id="task-13">
+            <span class="box"></span>
+            <span class="task-title">Create 30 thumbnail sketches</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Print the 30 Thumbnail Sketch Template. Make 30 black-and-white sketches, numbered 1–30. Explore a different visual direction in each.</div></div>
+        </div>
+        <div class="task" data-key="task-14">
+          <label class="checkrow">
+            <input type="checkbox" id="task-14">
+            <span class="box"></span>
+            <span class="task-title">Choose your three strongest concepts</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Mark your three strongest thumbnail concepts with a check.</div></div>
+        </div>
+        <div class="task" data-key="task-15">
+          <label class="checkrow">
+            <input type="checkbox" id="task-15">
+            <span class="box"></span>
+            <span class="task-title">Prepare Part Two PDF</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Save your sketches with the three selected concepts clearly marked. Name it LASTNAME_C2_Part_2_.pdf. Do not submit links or ZIP files.</div></div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="part-03">
+      <div class="step"><div class="stepnum">03</div><div class="steplabel">Refinement</div></div>
+      <div class="content">
+        <div class="part-head"><div><div class="kicker">Competency Two</div><h2>Refinement</h2></div><div class="part-count"></div></div>
+        
+        <div class="task" data-key="task-16">
+          <label class="checkrow">
+            <input type="checkbox" id="task-16">
+            <span class="box"></span>
+            <span class="task-title">Select three concepts</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Choose the three thumbnail ideas with the strongest concepts—not simply the most polished drawings.</div></div>
+        </div>
+        <div class="task" data-key="task-17">
+          <label class="checkrow">
+            <input type="checkbox" id="task-17">
+            <span class="box"></span>
+            <span class="task-title">Redraw all three</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Create clean professional logos in Adobe Illustrator or as highly refined hand renderings. Work in black and white only; no typography or color yet.</div></div>
+        </div>
+        <div class="task" data-key="task-18">
+          <label class="checkrow">
+            <input type="checkbox" id="task-18">
+            <span class="box"></span>
+            <span class="task-title">Upload for critique</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Put your three refined concepts on Milanote or Miro for class critique and instructor feedback.</div></div>
+        </div>
+        <div class="task" data-key="task-19">
+          <label class="checkrow">
+            <input type="checkbox" id="task-19">
+            <span class="box"></span>
+            <span class="task-title">Prepare Part Three files</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Save one logo per page in LASTNAME_C2_Part_3.pdf. If you used Illustrator, also submit LASTNAME_C2_Part_3.ai with layers intact.</div></div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="part-04">
+      <div class="step"><div class="stepnum">04</div><div class="steplabel">Final Presentation</div></div>
+      <div class="content">
+        <div class="part-head"><div><div class="kicker">Competency Two</div><h2>Final Presentation</h2></div><div class="part-count"></div></div>
+        
+        <div class="task" data-key="task-20">
+          <label class="checkrow">
+            <input type="checkbox" id="task-20">
+            <span class="box"></span>
+            <span class="task-title">Add typography</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Apply simple type that supports each of your top three logo concepts.</div></div>
+        </div>
+        <div class="task" data-key="task-21">
+          <label class="checkrow">
+            <input type="checkbox" id="task-21">
+            <span class="box"></span>
+            <span class="task-title">Test three sizes</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Test each of the three logos at 0.5 inch, 1 inch, and 1.5 inches on 8.5 × 11 inch pages.</div></div>
+        </div>
+        <div class="task" data-key="task-22">
+          <label class="checkrow">
+            <input type="checkbox" id="task-22">
+            <span class="box"></span>
+            <span class="task-title">Develop color</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Create a color palette and apply at least two colors to each logo.</div></div>
+        </div>
+        <div class="task" data-key="task-23">
+          <label class="checkrow">
+            <input type="checkbox" id="task-23">
+            <span class="box"></span>
+            <span class="task-title">Refine your strongest logo</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Choose the strongest logo and create five additional refinements before selecting the final solution.</div></div>
+        </div>
+        <div class="task" data-key="task-24">
+          <label class="checkrow">
+            <input type="checkbox" id="task-24">
+            <span class="box"></span>
+            <span class="task-title">Build the pitch deck</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Create a PowerPoint or Google Slides presentation showing the process from Parts One through Four. Keep backgrounds simple; one point per slide.</div></div>
+        </div>
+        <div class="task" data-key="task-25">
+          <label class="checkrow">
+            <input type="checkbox" id="task-25">
+            <span class="box"></span>
+            <span class="task-title">Check all 13 slides</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Include title; business name/reasoning; mood board; creative brief; three B&amp;W refined logos in three sizes; three logos with color/type; five final variations; final logo; and three things learned.</div></div>
+        </div>
+        <div class="task" data-key="task-26">
+          <label class="checkrow">
+            <input type="checkbox" id="task-26">
+            <span class="box"></span>
+            <span class="task-title">Submit Part Four</span>
+          </label>
+          <button class="explain" type="button" aria-expanded="false">What does this mean? →</button>
+          <div class="help"><div class="help-inner">Download/save the deck as PowerPoint and upload LASTNAME_C2_Part_4.pptx to Blackboard. No links or ZIP files.</div></div>
+        </div>
+      </div>
+    </section>
+<div class="next"><div><div class="label">Next unfinished item</div><div class="what" id="nextTask">Begin with your business type.</div></div><button class="reset" id="reset">Reset Progress</button></div>
+<div class="footer"><div>Design Concepts Toolkit<br><span style="color:#8a8a84">L. Smarzik</span></div><span>Your progress is saved only in this browser.</span></div>
+</div>
+<script>
+const STORAGE='designConceptsLogoAssignmentGuideV1';
+const boxes=[...document.querySelectorAll('.task input[type=checkbox]')];
+function load(){let s={};try{s=JSON.parse(localStorage.getItem(STORAGE)||'{}')}catch(e){}boxes.forEach(b=>b.checked=!!s[b.id]);update(false)}
+function save(){const s={};boxes.forEach(b=>s[b.id]=b.checked);localStorage.setItem(STORAGE,JSON.stringify(s));update(false)}
+function update(){boxes.forEach(b=>b.closest('.task').classList.toggle('done',b.checked));const done=boxes.filter(b=>b.checked).length;const pct=Math.round(done/boxes.length*100);document.getElementById('fill').style.width=pct+'%';document.getElementById('count').textContent=done+' of '+boxes.length+' complete';document.getElementById('percent').textContent=pct+'%';
+document.querySelectorAll('.section').forEach(sec=>{const bs=[...sec.querySelectorAll('input[type=checkbox]')];const d=bs.filter(b=>b.checked).length;sec.querySelector('.part-count').textContent=d+' of '+bs.length+' complete';});
+const n=boxes.find(b=>!b.checked);document.getElementById('nextTask').textContent=n?n.closest('.task').querySelector('.task-title').textContent:'Assignment checklist complete.';}
+boxes.forEach(b=>b.addEventListener('change',save));
+document.querySelectorAll('.explain').forEach(btn=>btn.addEventListener('click',()=>{const h=btn.nextElementSibling;const open=h.classList.toggle('open');btn.setAttribute('aria-expanded',open);btn.textContent=open?'Close ↑':'What does this mean? →';}));
+document.getElementById('reset').addEventListener('click',()=>{if(confirm('Clear every checkmark for this assignment?')){localStorage.removeItem(STORAGE);boxes.forEach(b=>b.checked=false);update();}});
+load();
+</script></body></html>
